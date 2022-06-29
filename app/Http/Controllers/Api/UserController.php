@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-
 class UserController extends Controller
 {
     public function register(Request $request){
@@ -41,19 +40,19 @@ class UserController extends Controller
             if(Hash::check($request->password, $user->password)){
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
-                    "msg" => "Usuario logueado",
+                    "message" => "Usuario logueado",
                     "access_token" => $token
                 ]);        
             }else{
                 return response()->json([
-                    "msg" => "La password es incorrecta",
+                    "message" => "La password es incorrecta",
                 ], 404);    
             }
 
         }else{
             return response()->json([
                 "status" => 0,
-                "msg" => "Usuario no registrado",
+                "message" => "Usuario no registrado",
             ], 404);  
         }
     }
@@ -61,7 +60,7 @@ class UserController extends Controller
     public function userProfile(){
         return response()->json([
             "status" => 0,
-            "msg" => "Perfil de usuario",
+            "message" => "Perfil de usuario",
             "data" => auth()->user()
         ]); 
     }
@@ -70,7 +69,7 @@ class UserController extends Controller
         auth()->user()->tokens()->delete();
         return response()->json([
             "status" => 1,
-            "msg" => "Cierre de Sesión",            
+            "message" => "Cierre de Sesión",            
         ]); 
     }
     
