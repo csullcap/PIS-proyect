@@ -13,18 +13,26 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('estandars', function (Blueprint $table) {
+        Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            //$table->foreign('id_user')->references('id')->on('users');
+            $table->string('codigo', 16);
+            $table->string('denominacion');
+            $table->string('oportunidad');
             $table->foreignId('id_user')
                   ->constrained('users');
+            $table->foreignId('id_estandar')
+                  ->constrained('estandars');
+
         });
     }
 
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('estandars');
+        Schema::dropIfExists('evidencias');
     }
 };

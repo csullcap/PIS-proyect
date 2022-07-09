@@ -12,12 +12,14 @@ class UserController extends Controller
     public function register(Request $request){
         $request->validate([
             'name'=>'required',
+            'lastname'=>'required',
             'email'=>'required|email|unique:users',
             'password'=>'required|confirmed'
         ]);
 
         $user = new User();
         $user->name = $request->name;
+        $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
@@ -42,18 +44,18 @@ class UserController extends Controller
                 return response()->json([
                     "message" => "Usuario logueado",
                     "access_token" => $token
-                ]);        
+                ]);
             }else{
                 return response()->json([
                     "message" => "La password es incorrecta",
-                ], 404);    
+                ], 404);
             }
 
         }else{
             return response()->json([
                 "status" => 0,
                 "message" => "Usuario no registrado",
-            ], 404);  
+            ], 404);
         }
     }
 
@@ -62,15 +64,15 @@ class UserController extends Controller
             "status" => 0,
             "message" => "Perfil de usuario",
             "data" => auth()->user()
-        ]); 
+        ]);
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
         return response()->json([
             "status" => 1,
-            "message" => "Cierre de Sesión",            
-        ]); 
+            "message" => "Cierre de Sesión",
+        ]);
     }
-    
+
 }

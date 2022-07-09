@@ -17,10 +17,21 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'lastname',
         'email',
         'password',
     ];
 
     public $timestamps = false;
+
+    public function estandars(){
+      return $this->hasMany(Estandar::class,'id');
+    }
+    public function plans(){
+      return $this->hasMany(Plan::class,'id');
+    }
+    public function evidencias(){
+      return $this->hasMany(Evidencia::class,'id');
+    }
 
 }

@@ -5,25 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Estandar extends Model
+class evidencia extends Model
 {
-
     use HasFactory;
+
     public $timestamps = false;
 
-    protected $table ='estandars';
+    protected $table ='evidencias';
     protected $fillable = [
-        'name',
+        'codigo',
+        'denominacion',
+        'adjunto',
+
     ];
 
 
     public function users(){
         return $this->belongsTo(User::class,'id_user');
     }
-    public function plans(){
-      return $this->hasMany(Plan::class,'id');
+    public function estandars(){
+        return $this->belongsTo(Estandar::class,'id_estandar');
     }
-    public function evidencias(){
-      return $this->hasMany(Evidencia::class,'id');
-    }
+
 }
