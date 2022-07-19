@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return ['APP' => 'Sistema Gestor de Calidad de la Escuela de Relaciones Industriales'];
 });
