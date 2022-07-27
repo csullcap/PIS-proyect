@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('evidencias', function (Blueprint $table) {
+        Schema::create('responsables_planes_mejoras', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 16);
-            $table->string('denominacion');
-            $table->string('adjunto');
-            $table->foreignId('id_user')
-                  ->constrained('users');
+            $table->timestamps();
             $table->foreignId('id_plan')
                   ->constrained('plans')
                   ->onDelete('cascade');
-
+            $table->foreignId('id_responsable')
+                  ->constrained('responsables');
         });
     }
 
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evidencias');
+        Schema::dropIfExists('responsables_planes_mejoras');
     }
 };

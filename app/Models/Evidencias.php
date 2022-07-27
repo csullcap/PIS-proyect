@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class evidencia extends Model
+class Evidencias extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,8 @@ class evidencia extends Model
     public function users(){
         return $this->belongsTo(User::class,'id_user');
     }
-    public function estandars(){
-        return $this->belongsTo(Estandar::class,'id_estandar');
+    public function plans(){
+        return $this->belongsTo(plan::class,'id_plan');
     }
 
 }

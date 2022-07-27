@@ -13,18 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('estandars', function (Blueprint $table) {
+        Schema::create('responsables', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); //cambiar el name por nombre
-            //$table->foreign('id_user')->references('id')->on('users');
-            $table->foreignId('id_user')
-                  ->constrained('users');
+            $table->timestamps();
+            $table->string('nombre');
         });
     }
 
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('estandars');
+        Schema::dropIfExists('responsables');
     }
 };

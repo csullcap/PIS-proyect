@@ -33,5 +33,4 @@ class User extends Authenticatable
     public function evidencias(){
       return $this->hasMany(Evidencia::class,'id');
     }
-
 }
