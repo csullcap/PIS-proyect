@@ -16,7 +16,6 @@ use App\Models\Recursos;
 use App\Models\Responsables;
 
 
-
 class PlanController extends Controller{
 
      // Arreglar el formato de IDs
@@ -146,6 +145,7 @@ class PlanController extends Controller{
         ]);
     }
 
+/*
     public function updatePlan(Request $request, $id){
         $id_user = auth()->user()->id;
         if(plan::where(["id_user"=>$id_user,"id"=>$id])->exists()){
@@ -166,6 +166,7 @@ class PlanController extends Controller{
         }
 
     }
+*/
 
     public function deletePlan($id){
         $id_user = auth()->user()->id;
@@ -185,7 +186,7 @@ class PlanController extends Controller{
         }
     }
 
-
+    //faltas completar
     public function showPlan($id){
         if(plan::where("id",$id)->exists()){
             $plan = plan::find($id);
@@ -201,6 +202,5 @@ class PlanController extends Controller{
               "message" => "!No se encontro el plan de mejora",
           ],404);
         }
-
     }
 }

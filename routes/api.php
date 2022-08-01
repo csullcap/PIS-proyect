@@ -28,6 +28,10 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::delete('plan/{id}',[PlanController::class,'deletePlan']);
     #Route::put('plan/{id}',[PlanController::class,'updatePlan']);
 
+    
+
+
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
