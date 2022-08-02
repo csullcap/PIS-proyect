@@ -9,7 +9,7 @@ class Evidencias extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table ='evidencias';
     protected $fillable = [

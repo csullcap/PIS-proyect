@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Responsables extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table ='responsables';
     protected $fillable = [

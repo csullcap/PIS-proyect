@@ -9,7 +9,7 @@ class Estandar extends Model
 {
 
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $table ='estandars';
     protected $fillable = [
         'name',

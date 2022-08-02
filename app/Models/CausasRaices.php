@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CausasRaices extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table ='causas_raices';
     protected $fillable = [

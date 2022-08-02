@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('id_plan')
                   ->constrained('plans')
                   ->onDelete('cascade');
-
+            $table->timestamps();
         });
     }
 

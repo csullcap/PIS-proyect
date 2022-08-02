@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccionesMejoras extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table ='acciones_mejoras';
     protected $fillable = [

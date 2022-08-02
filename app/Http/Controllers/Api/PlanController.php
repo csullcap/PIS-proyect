@@ -24,31 +24,31 @@ class PlanController extends Controller{
             "estandar_id"=> "required|integer",
             "nombre"=>"required|max:255",
             "codigo"=> "required|max:11",
-            "fuentes"=>"required",
+            /*"fuentes"=>"required",
             "fuentes.*.descripcion"=> "required",
             "problemas_oportunidades"=>"required",
             "problemas_oportunidades.*.descripcion"=> "required",
             "causas_raices"=>"required",
-            "causas_raices.*.descripcion"=> "required",
+            "causas_raices.*.descripcion"=> "required",*/
             "oportunidad_plan"=>"required|max:255",
-            "acciones_mejoras"=>"required",
-            "acciones_mejoras.*.descripcion"=> "required",
+            /*"acciones_mejoras"=>"required",
+            "acciones_mejoras.*.descripcion"=> "required",*/
             "semestre_ejecucion"=>"required|max:7", 
             "duracion"=> "required|integer",
-            "recursos"=>"required",
+            /*"recursos"=>"required",
             "recursos.*.descripcion"=> "required",
             "metas"=>"required",
             "metas.*.descripcion"=> "required",
             "responsables"=>"required",
             "responsables.*.nombre"=> "required",
             "observaciones"=>"required",
-            "observaciones.*.descripcion"=> "required",
+            "observaciones.*.descripcion"=> "required",*/
             "estado"=> "required|max:30",
-            "evidencias_planes_mejoras"=>"required",
+            /*"evidencias_planes_mejoras"=>"required",
             "evidencias_planes_mejoras.*.codigo"=> "required",
             "evidencias_planes_mejoras.*.denominacion"=> "required",
             "evidencias_planes_mejoras.*.encargado_id"=> "required",
-            "evidencias_planes_mejoras.*.adjunto"=> "required",
+            "evidencias_planes_mejoras.*.adjunto"=> "required",*/
             "evaluacion_eficacia"=> "required|boolean",
             "avance"=> "required|integer",
         ]);
@@ -190,9 +190,17 @@ class PlanController extends Controller{
     public function showPlan($id){
         if(plan::where("id",$id)->exists()){
             $plan = plan::find($id);
+            $plan->fuentes = Fuentes::where("id_plan",$id)->get();
+            $plan->problemas_oportunidades = ProblemasOportunidades::where("id_plan",$id)->get();
+            $plan->causas_raices = CausasRaices::where("id_plan",$id)->get();
+            $plan->acciones_mejoras = AccionesMejoras::where("id_plan",$id)->get();
+            $plan->recursos = Recursos::where("id_plan",$id)->get();
+            $plan->metas = Metas::where("id_plan",$id)->get();
+            $plan->observaciones = Observaciones::where("id_plan",$id)->get();
+            $plan->evidencias_planes_mejoras = Evidencias::where("id_plan",$id)->get();
             return response([
                 "status" => 1,
-                "message" => "!plan",
+                "message" => "!Plan de mejora encontrado",
                 "data" => $plan,
             ]);
         }
