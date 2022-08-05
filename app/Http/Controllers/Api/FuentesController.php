@@ -41,8 +41,8 @@ class FuentesController extends Controller
     {
         $id_user = auth()->user()->id;
         if(Fuentes::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = Fuentes::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $fuente = Fuentes::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $fuente->delete();
               return response([
                   "status" => 1,
                   "message" => "!Fuente eliminada con éxito!",

@@ -41,8 +41,8 @@ class RecursosController extends Controller
     {
         $id_user = auth()->user()->id;
         if(Recursos::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = Recursos::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $recurso = Recursos::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $recurso->delete();
               return response([
                   "status" => 1,
                   "message" => "!Recurso eliminado con éxito!",

@@ -41,8 +41,8 @@ class CausasRaicesController extends Controller
     {
         $id_user = auth()->user()->id;
         if(CausasRaices::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = CausasRaices::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $causa = CausasRaices::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $causa->delete();
               return response([
                   "status" => 1,
                   "message" => "!Causa eliminada con éxito!",

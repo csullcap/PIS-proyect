@@ -41,8 +41,8 @@ class AccionesMejorasController extends Controller
     {
         $id_user = auth()->user()->id;
         if(AccionesMejoras::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = AccionesMejoras::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $accion = AccionesMejoras::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $accion->delete();
               return response([
                   "status" => 1,
                   "message" => "!accion eliminada con éxito!",

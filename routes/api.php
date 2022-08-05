@@ -5,14 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EstandarController;
 use App\Http\Controllers\Api\PlanController;
-use App\Http\Controllers\Api\MetasController;
+
 use App\Http\Controllers\Api\AccionesMejorasController;
 use App\Http\Controllers\Api\CausasRaicesController;
 use App\Http\Controllers\Api\FuentesController;
 use App\Http\Controllers\Api\ObservacionesController;
 use App\Http\Controllers\Api\ProblemasOportunidadesController;
 use App\Http\Controllers\Api\RecursosController;
-
+use App\Http\Controllers\Api\MetasController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -34,7 +34,7 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::get('plan',[PlanController::class,'listPlan']);
     Route::get('plan/{id}',[PlanController::class,'showPlan']);
     Route::delete('plan/{id}',[PlanController::class,'deletePlan']);
-    #Route::put('/{id}',[Controller::class,'update']);
+    Route::put('plan/{id}',[PlanController::class,'updatePlan']);
 
     //rutas metas
     Route::post('meta',[MetasController::class,'create']);

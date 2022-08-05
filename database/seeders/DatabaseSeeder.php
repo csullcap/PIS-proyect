@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
+        //Falta crear una cuenta brayan
         \App\Models\User::factory()->create([
             "name"=>"Alexis",
             "lastname"=>"Arroyo",

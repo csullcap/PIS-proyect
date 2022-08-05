@@ -41,8 +41,8 @@ class ObservacionesController extends Controller
     {
         $id_user = auth()->user()->id;
         if(Observaciones::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = Observaciones::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $observacion = Observaciones::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $observacion->delete();
               return response([
                   "status" => 1,
                   "message" => "!Observacion eliminada con éxito!",

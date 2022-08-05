@@ -41,8 +41,8 @@ class ProblemasOportunidadesController extends Controller
     {
         $id_user = auth()->user()->id;
         if(ProblemasOportunidades::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $plan = ProblemasOportunidades::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $plan->delete();
+              $problema = ProblemasOportunidades::where(["id"=>$id,"id_user"=>$id_user])->first();
+              $problema->delete();
               return response([
                   "status" => 1,
                   "message" => "problema eliminada con éxito!",

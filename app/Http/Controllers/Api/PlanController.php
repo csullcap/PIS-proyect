@@ -132,11 +132,18 @@ class PlanController extends Controller{
     }
 
     public function listPlan(){
-        $planAll = plan::select('plans.id', 'plans.codigo','plans.avance','plans.estado','estandars.name as estandar_name','users.name as user_name')
+        $id_user = auth()->user()->id;  
+
+        $planAll = plan::select('plans.id','plans.nombre', 'plans.codigo','plans.avance','plans.estado','plans.id_user','estandars.name as estandar_name','users.name as user_name')
                 ->join('estandars', 'plans.id_estandar', '=', 'estandars.id')
                 ->join('users', 'plans.id_user', '=', 'users.id')
                 ->orderBy('id','asc')
                 ->get();
+                
+        foreach($planAll as $plan){   
+            $plan->esCreador = ($plan->id_user == $id_user)?true:false;
+            unset($plan->id_user);
+        }
 
         return response([
             "status" => 1,
@@ -145,12 +152,18 @@ class PlanController extends Controller{
         ]);
     }
 
-/*
     public function updatePlan(Request $request, $id){
         $id_user = auth()->user()->id;
         if(plan::where(["id_user"=>$id_user,"id"=>$id])->exists()){
             $plan = plan::find($id);
-            $plan->name = isset($request->name) ? $request->name : $plan->title;
+            $plan->nombre = $request->nombre;
+            $plan->codigo = $request->codigo;
+            $plan->oportunidad_plan = $request->oportunidad_plan;
+            $plan->semestre_ejecucion = $request->semestre_ejecucion;
+            $plan->duracion = $request->duracion;
+            $plan->estado = $request->estado;
+            $plan->evaluacion_eficacia = $request->evaluacion_eficacia;
+            $plan->avance = $request->avance;
             $plan->save();
             return response([
                 "status" => 1,
@@ -166,7 +179,7 @@ class PlanController extends Controller{
         }
 
     }
-*/
+
 
     public function deletePlan($id){
         $id_user = auth()->user()->id;
