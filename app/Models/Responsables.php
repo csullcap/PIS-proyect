@@ -15,8 +15,9 @@ class Responsables extends Model
         'nombre',
 
     ];
-    public function responsablesplanesmejora(){
-        return $this->hasmany(ResponsablesPlanesMejora::class,'id');
+    public function plans(){
+        return $this->belongsTo(plan::class,'id_plan');
     }
-    
 }
+    
+

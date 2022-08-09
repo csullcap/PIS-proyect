@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('responsables_planes_mejoras', function (Blueprint $table) {
+        Schema::create('responsables_valores', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('id_plan')
-                  ->constrained('plans')
-                  ->onDelete('cascade');
-            $table->foreignId('id_responsable')
-                  ->constrained('responsables');
+            $table->string('valor');
         });
     }
 
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('responsables_planes_mejoras');
+        Schema::dropIfExists('responsables_valores');
     }
 };

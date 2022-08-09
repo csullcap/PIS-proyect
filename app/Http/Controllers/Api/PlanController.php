@@ -24,31 +24,31 @@ class PlanController extends Controller{
             "estandar_id"=> "required|integer",
             "nombre"=>"required|max:255",
             "codigo"=> "required|max:11",
-            /*"fuentes"=>"required",
+            "fuentes"=>"required",
             "fuentes.*.descripcion"=> "required",
             "problemas_oportunidades"=>"required",
             "problemas_oportunidades.*.descripcion"=> "required",
             "causas_raices"=>"required",
-            "causas_raices.*.descripcion"=> "required",*/
+            "causas_raices.*.descripcion"=> "required",
             "oportunidad_plan"=>"required|max:255",
-            /*"acciones_mejoras"=>"required",
-            "acciones_mejoras.*.descripcion"=> "required",*/
-            "semestre_ejecucion"=>"required|max:7", 
+            "acciones_mejoras"=>"required",
+            "acciones_mejoras.*.descripcion"=> "required",
+            "semestre_ejecucion"=>"required|max:8", //aaaa-A/B/C/AB
             "duracion"=> "required|integer",
-            /*"recursos"=>"required",
+            "recursos"=>"required",
             "recursos.*.descripcion"=> "required",
             "metas"=>"required",
             "metas.*.descripcion"=> "required",
             "responsables"=>"required",
             "responsables.*.nombre"=> "required",
             "observaciones"=>"required",
-            "observaciones.*.descripcion"=> "required",*/
+            "observaciones.*.descripcion"=> "required",
             "estado"=> "required|max:30",
             /*"evidencias_planes_mejoras"=>"required",
             "evidencias_planes_mejoras.*.codigo"=> "required",
             "evidencias_planes_mejoras.*.denominacion"=> "required",
             "evidencias_planes_mejoras.*.encargado_id"=> "required",
-            "evidencias_planes_mejoras.*.adjunto"=> "required",*/
+            "evidencias_planes_mejoras*.adjunto"=> "required",*/
             "evaluacion_eficacia"=> "required|boolean",
             "avance"=> "required|integer",
         ]);
@@ -61,6 +61,8 @@ class PlanController extends Controller{
 
         $plan->nombre = $request->nombre;
         $plan->codigo = $request->codigo;
+
+
         $plan->oportunidad_plan = $request->oportunidad_plan;
         $plan->semestre_ejecucion = $request->semestre_ejecucion;
         $plan->duracion = $request->duracion;
@@ -72,38 +74,38 @@ class PlanController extends Controller{
         $id_plan = $plan->id;
 
         foreach($request->fuentes as $fuente){
-            $fuentes_aux = new Fuentes();
-            $fuentes_aux->descripcion = $fuente["descripcion"];
-            $fuentes_aux->id_plan = $id_plan;
-            $fuentes_aux->save();
+            $fuente_aux = new Fuentes();
+            $fuente_aux->descripcion = $fuente["descripcion"];
+            $fuente_aux->id_plan = $id_plan;
+            $fuente_aux->save();
         }
 
         foreach($request->problemas_oportunidades as $problema){
-            $problemas_oportunidades_aux = new ProblemasOportunidades();
-            $problemas_oportunidades_aux->descripcion = $problema["descripcion"];
-            $problemas_oportunidades_aux->id_plan = $id_plan;
-            $problemas_oportunidades_aux->save();
+            $problema_oportunidad_aux = new ProblemasOportunidades();
+            $problema_oportunidad_aux->descripcion = $problema["descripcion"];
+            $problema_oportunidad_aux->id_plan = $id_plan;
+            $problema_oportunidad_aux->save();
         }
 
         foreach($request->causas_raices as $causa){
-            $causas_raices_aux = new CausasRaices();
-            $causas_raices_aux->descripcion = $causa["descripcion"];
-            $causas_raices_aux->id_plan = $id_plan;
-            $causas_raices_aux->save();
+            $causa_raiz_aux = new CausasRaices();
+            $causa_raiz_aux->descripcion = $causa["descripcion"];
+            $causa_raiz_aux->id_plan = $id_plan;
+            $causa_raiz_aux->save();
         }
 
         foreach($request->acciones_mejoras as $accion){
-            $acciones_mejoras_aux = new AccionesMejoras();
-            $acciones_mejoras_aux->descripcion = $accion["descripcion"];
-            $acciones_mejoras_aux->id_plan = $id_plan;
-            $acciones_mejoras_aux->save();
+            $accion_mejora_aux = new AccionesMejoras();
+            $accion_mejora_aux->descripcion = $accion["descripcion"];
+            $accion_mejora_aux->id_plan = $id_plan;
+            $accion_mejora_aux->save();
         }
 
         foreach($request->recursos as $recurso){
-            $recursos_aux = new Recursos();
-            $recursos_aux->descripcion = $recurso["descripcion"];
-            $recursos_aux->id_plan = $id_plan;
-            $recursos_aux->save();
+            $recurso_aux = new Recursos();
+            $recurso_aux->descripcion = $recurso["descripcion"];
+            $recurso_aux->id_plan = $id_plan;
+            $recurso_aux->save();
         }
 
         foreach($request->metas as $meta){
@@ -114,15 +116,20 @@ class PlanController extends Controller{
         }
 
         foreach($request->observaciones as $observacion){
-            $observaciones_aux = new Observaciones();
-            $observaciones_aux->descripcion = $observacion["descripcion"];
-            $observaciones_aux->id_plan = $id_plan;
-            $observaciones_aux->save();
+            $observacion_aux = new Observaciones();
+            $observacion_aux->descripcion = $observacion["descripcion"];
+            $observacion_aux->id_plan = $id_plan;
+            $observacion_aux->save();
         }
 
+        foreach($request->responsables as $responsable){
+            $responsable_aux = new Responsables();   
+            $responsable_aux ->nombre = $responsable["nombre"];
+            $responsable_aux ->id_plan = $id_plan;
+            $responsable_aux ->save();
+        }
         /*
         $evidencias_planes_mejoras = new Evidencias();   Falta completar
-        $responsables = new Responsables();              Falta completar
         */
 
         return response([
@@ -130,6 +137,8 @@ class PlanController extends Controller{
             "message" => "!Plan de mejora creado exitosamente",
         ]);
     }
+
+    //falta funcion filtrar por estandares 
 
     public function listPlan(){
         $id_user = auth()->user()->id;  

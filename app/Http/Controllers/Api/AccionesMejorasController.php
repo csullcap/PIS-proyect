@@ -4,23 +4,42 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccionesMejoras;
+use App\Models\plan;
 use Illuminate\Http\Request;
 
 class AccionesMejorasController extends Controller
 {
     public function create(Request $request) {
         $request->validate([
-            "estandar_id"=> "required|integer",
+            "id_plan"=> "required|integer",
             "descripcion"=> "required",
         ]);
-        $accion = new AccionesMejoras();
-        $accion->estandar_id = $request->estandar_id;
-        $accion->descripcion = $request->descripcion;
-        $accion->save();
-        return response()([
-            "status" => 1,
-            "message" => "accion creada exitosamente"
-        ]);
+        $id_user = auth()->user()->id;
+        if(plan::where(["id"=>$request->id_plan])->exists()){
+            $plan = plan::find($request->id_plan);
+            if($plan->id_user == $id_user){                
+                $acciones = new AccionesMejoras();
+                $acciones->id_plan = $request->id_plan;
+                $acciones->descripcion = $request->descripcion;
+                $acciones->save();
+                return response([
+                    "status" => 1,
+                    "message" => "Accion de mejora creada exitosamente",
+                ]);
+            }
+            else{
+                return response([
+                    "status" => 0,
+                    "message" => "No tienes permisos para crear esta accion de mejora",
+                ],404);
+            }
+        }
+        else{
+            return response([
+                "status" => 0,
+                "message" => "No se encontro el plan",
+            ],404);
+        }
     }
 
     public function update(Request $request){
@@ -28,30 +47,57 @@ class AccionesMejorasController extends Controller
             "id"=> "required|integer",
             "descripcion"=> "required"
         ]);
-        $accion = AccionesMejoras::find($request->id);
-        $accion->descripcion = $request->descripcion;
-        $accion->save();
-        return response([
-            "status" => 1,
-            "message" => "accion actualizada exitosamente",
-        ]);
+        $id_user = auth()->user()->id;
+        if(AccionesMejoras::where(["id"=>$request->id])->exists()){
+            $accion = AccionesMejoras::find($request->id);
+            $plan = plan::find($accion->id_plan);
+            if($plan->id_user == $id_user){                
+                $accion->descripcion = $request->descripcion;
+                $accion->save();
+                return response([
+                    "status" => 1,
+                    "message" => "Accion de mejora actualizada exitosamente",
+                ]);
+            }
+            else{
+                return response([
+                    "status" => 0,
+                    "message" => "No tienes permisos para actualizar esta accion de mejora",
+                ],404);
+            }
+        }
+        else{
+            return response([
+                "status" => 0,
+                "message" => "No se encontro la meta",
+            ],404);
+        }
     }
 
     public function delete($id)
     {
         $id_user = auth()->user()->id;
-        if(AccionesMejoras::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $accion = AccionesMejoras::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $accion->delete();
-              return response([
-                  "status" => 1,
-                  "message" => "!accion eliminada con éxito!",
-              ],200);
+        if(AccionesMejoras::where(["id"=>$id])->exists()){
+            $accion = AccionesMejoras::find($id);
+            $plan = plan::find($accion->id_plan);
+            if($plan->id_user == $id_user){
+                $accion->delete();
+                return response([
+                    "status" => 1,
+                    "message" => "Accion de mejora eliminada exitosamente",
+                ]);
+            }
+            else{
+                return response([
+                    "status" => 0,
+                    "message" => "No tienes permisos para eliminar esta accion de mejora",
+                ],404);
+            }
         }
         else{
             return response([
                 "status" => 0,
-                "message" => "!No se encontro la accion o no esta autorizado",
+                "message" => "No se encontro la meta",
             ],404);
         }
     }

@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('responsables', function (Blueprint $table) {
+        Schema::create('fuentes_valores', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('nombre');
-            $table->foreignId('id_plan')
-                  ->constrained('plans')
-                  ->onDelete('cascade');
+            $table->string('valor');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('responsables');
+        Schema::dropIfExists('fuentes_valores');
     }
 };

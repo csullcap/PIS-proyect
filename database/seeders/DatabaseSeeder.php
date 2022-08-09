@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //Falta crear una cuenta brayan
+        //Usuarios
         \App\Models\User::factory()->create([
             "name"=>"Alexis",
             "lastname"=>"Arroyo",
@@ -46,6 +46,15 @@ class DatabaseSeeder extends Seeder
             "email"=>"csullcap@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+
+         \App\Models\User::factory()->create([
+            "name"=>"Brayan",
+            "lastname"=>"Guillen",
+            "email"=>"bguillenn@unsa.edu.pe",
+            "password"=>Hash::make("123456"),
+         ]);
+
+         //Estandares
 
         \App\Models\Estandar::factory()->create([
             "name"=>"E-1 Propositos Articulados",
@@ -83,5 +92,49 @@ class DatabaseSeeder extends Seeder
             "name"=>"E-9 Planes de Mejora",
             "id_user"=>1,
          ]);
+         
+         //Fuentes valores
+
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Solicitudes de acción correctiva",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Servicios no conformes",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Quejas",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Evaluación de competencias",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Evaluación de los objetivos Educacionales",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Actividades diarias",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Lineamientos institucionales",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Acuerdos de Consejo de Facultad y Asamblea Docente",
+         ]);
+         \App\Models\FuentesValores::factory()->create([
+            "valor"=>"Buenas prácticas de otras organizaciones",
+         ])
+         ;\App\Models\FuentesValores::factory()->create([
+            "valor"=>"Otros",
+         ]);
+
+         //Responsalbles valores
+
+         ;\App\Models\ResponsablesValores::factory()->create([
+            "valor"=>"Dirección EP RR.II.",
+         ]);
+         ;\App\Models\ResponsablesValores::factory()->create([
+            "valor"=>"Comisión de desarrollo docente",
+         ]);
+         
+
     }
 }

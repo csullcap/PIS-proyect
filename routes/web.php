@@ -13,5 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function () {
-    return ['APP' => 'Sistema Gestor de Calidad de la Escuela de Relaciones Industriales'];
+    return response()->json(['APP' => 'Sistema Gestor de Calidad de la Escuela de Relaciones Industriales'],200);
+});
+Route::fallback(function(){
+    return response()->json(['message' => 'PAGINA NO ENCONTRADA O NO ESTAS AUTORIZADO PARA ESTA PAGINA'], 404);
 });

@@ -13,9 +13,16 @@ use App\Http\Controllers\Api\ObservacionesController;
 use App\Http\Controllers\Api\ProblemasOportunidadesController;
 use App\Http\Controllers\Api\RecursosController;
 use App\Http\Controllers\Api\MetasController;
+use App\Http\Controllers\Api\FuentesValoresController;
+use App\Http\Controllers\Api\ResponsablesValoresController;
 
 Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
+Route::post('login', [UserController::class, 'login'])->name('login');
+
+//Responsables Valores
+Route::get('responsables',[ResponsablesValoresController::class,'listResponsablesValores']);
+//fuentes Valores
+Route::get('fuentes',[FuentesValoresController::class,'listFuentesValores']);
 
 Route::middleware("auth:sanctum")->group (function(){
     //rutas auth
@@ -71,7 +78,10 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::put('causa',[CausasRaicesController::class,'update']);
     Route::delete('causa/{id}',[CausasRaicesController::class,'delete']);
 
-
+    //ruta responsables
+    /*Route::post('responsable',[CausasRaicesController::class,'create']);
+    Route::put('responsable',[CausasRaicesController::class,'update']);
+    Route::delete('responsable/{id}',[CausasRaicesController::class,'delete']);*/
 
 });
 
