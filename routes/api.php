@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EstandarController;
 use App\Http\Controllers\Api\PlanController;
-
 use App\Http\Controllers\Api\AccionesMejorasController;
 use App\Http\Controllers\Api\CausasRaicesController;
 use App\Http\Controllers\Api\FuentesController;
@@ -15,6 +14,9 @@ use App\Http\Controllers\Api\RecursosController;
 use App\Http\Controllers\Api\MetasController;
 use App\Http\Controllers\Api\FuentesValoresController;
 use App\Http\Controllers\Api\ResponsablesValoresController;
+use App\Http\Controllers\Api\ResponsablesController;
+use App\Http\Controllers\Api\EstadosValoresController;
+
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login'])->name('login');
@@ -23,6 +25,10 @@ Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('responsables',[ResponsablesValoresController::class,'listResponsablesValores']);
 //fuentes Valores
 Route::get('fuentes',[FuentesValoresController::class,'listFuentesValores']);
+//Estados valores 
+Route::get('estados',[EstadosValoresController::class,'listEstadosValores']);
+//Estandares  valores 
+Route::get('estandares', [EstandarController::class,'listEstandarValores']);
 
 Route::middleware("auth:sanctum")->group (function(){
     //rutas auth
@@ -79,9 +85,9 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::delete('causa/{id}',[CausasRaicesController::class,'delete']);
 
     //ruta responsables
-    /*Route::post('responsable',[CausasRaicesController::class,'create']);
-    Route::put('responsable',[CausasRaicesController::class,'update']);
-    Route::delete('responsable/{id}',[CausasRaicesController::class,'delete']);*/
+    Route::post('responsable',[ResponsablesController::class,'create']);
+    Route::put('responsable',[ResponsablesController::class,'update']);
+    Route::delete('responsable/{id}',[ResponsablesController::class,'delete']);
 
 });
 

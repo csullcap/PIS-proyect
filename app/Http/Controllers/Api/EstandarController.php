@@ -33,6 +33,18 @@ class EstandarController extends Controller
         ]);
     }
 
+    public function listEstandarValores(){
+        $estandaresNombreslist = Estandar::select('estandars.name')
+                                ->orderBy('estandars.id','asc')
+                                ->get();
+        return response([
+            "status" => 1,
+            "msg" => "!Lista de nombres de Estandares",
+            "data" => $estandaresNombreslist,
+        ]);
+    }
+    
+
     public function showEstandar($id){
         if(Estandar::where("id",$id)->exists()){
             $estandar = Estandar::find($id);

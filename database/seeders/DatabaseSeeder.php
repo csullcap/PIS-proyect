@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+       
         //Usuarios
         \App\Models\User::factory()->create([
             "name"=>"Alexis",
@@ -135,6 +136,22 @@ class DatabaseSeeder extends Seeder
             "valor"=>"Comisión de desarrollo docente",
          ]);
          
+         // Estados valores : Planificado, Programado, Reprogramado, En proceso o Concluido.
 
+         ;\App\Models\EstadosValores::factory()->create([
+            "valor"=>"Planificado",
+         ]);
+         ;\App\Models\EstadosValores::factory()->create([
+            "valor"=>"Programado",
+         ]);
+         ;\App\Models\EstadosValores::factory()->create([
+            "valor"=>"Reprogramado",
+         ]);
+         ;\App\Models\EstadosValores::factory()->create([
+            "valor"=>"En proceso",
+         ]);
+         ;\App\Models\EstadosValores::factory()->create([
+            "valor"=>"Concluido",
+         ]);
     }
 }

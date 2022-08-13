@@ -146,7 +146,7 @@ class PlanController extends Controller{
         $planAll = plan::select('plans.id','plans.nombre', 'plans.codigo','plans.avance','plans.estado','plans.id_user','estandars.name as estandar_name','users.name as user_name')
                 ->join('estandars', 'plans.id_estandar', '=', 'estandars.id')
                 ->join('users', 'plans.id_user', '=', 'users.id')
-                ->orderBy('id','asc')
+                ->orderBy('plans.id','asc')
                 ->get();
                 
         foreach($planAll as $plan){   
@@ -166,7 +166,6 @@ class PlanController extends Controller{
         if(plan::where(["id_user"=>$id_user,"id"=>$id])->exists()){
             $plan = plan::find($id);
             $plan->nombre = $request->nombre;
-            $plan->codigo = $request->codigo;
             $plan->oportunidad_plan = $request->oportunidad_plan;
             $plan->semestre_ejecucion = $request->semestre_ejecucion;
             $plan->duracion = $request->duracion;
