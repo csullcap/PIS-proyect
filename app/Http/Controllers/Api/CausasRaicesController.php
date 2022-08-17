@@ -17,7 +17,7 @@ class CausasRaicesController extends Controller
         $id_user = auth()->user()->id;
         if(plan::where(["id"=>$request->id_plan])->exists()){
             $plan = plan::find($request->id_plan);
-            if($plan->id_user == $id_user){                
+            if($plan->id_user == $id_user){
                 $causa = new CausasRaices();
                 $causa->id_plan = $request->id_plan;
                 $causa->descripcion = $request->descripcion;
@@ -50,8 +50,8 @@ class CausasRaicesController extends Controller
         $id_user = auth()->user()->id;
         if(CausasRaices::where(["id"=>$request->id])->exists()){
             $causa = CausasRaices::find($request->id);
-            $plan = plan::find($meta->id_plan);
-            if($plan->id_user == $id_user){                
+            $plan = plan::find($causa->id_plan);
+            if($plan->id_user == $id_user){
                 $causa->descripcion = $request->descripcion;
                 $causa->save();
                 return response([
