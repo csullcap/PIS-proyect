@@ -55,7 +55,7 @@ class PlanController extends Controller{
 
         $id_user = auth()->user()->id;
         $plan = new plan();
-        
+
         $plan->id_user = $id_user;
         $plan->id_estandar = $request->estandar_id;                     //actualizar a estandar_id
 
@@ -70,7 +70,7 @@ class PlanController extends Controller{
         $plan->evaluacion_eficacia = $request->evaluacion_eficacia;
         $plan->avance = $request->avance;
         $plan->save();
-        
+
         $id_plan = $plan->id;
 
         foreach($request->fuentes as $fuente){
@@ -123,7 +123,7 @@ class PlanController extends Controller{
         }
 
         foreach($request->responsables as $responsable){
-            $responsable_aux = new Responsables();   
+            $responsable_aux = new Responsables();
             $responsable_aux ->nombre = $responsable["nombre"];
             $responsable_aux ->id_plan = $id_plan;
             $responsable_aux ->save();
@@ -138,18 +138,18 @@ class PlanController extends Controller{
         ]);
     }
 
-    //falta funcion filtrar por estandares 
+    //falta funcion filtrar por estandares
 
     public function listPlan(){
-        $id_user = auth()->user()->id;  
+        $id_user = auth()->user()->id;
 
         $planAll = plan::select('plans.id','plans.nombre', 'plans.codigo','plans.avance','plans.estado','plans.id_user','estandars.name as estandar_name','users.name as user_name')
                 ->join('estandars', 'plans.id_estandar', '=', 'estandars.id')
                 ->join('users', 'plans.id_user', '=', 'users.id')
                 ->orderBy('plans.id','asc')
                 ->get();
-                
-        foreach($planAll as $plan){   
+
+        foreach($planAll as $plan){
             $plan->esCreador = ($plan->id_user == $id_user)?true:false;
             unset($plan->id_user);
         }
@@ -161,7 +161,18 @@ class PlanController extends Controller{
         ]);
     }
 
-    public function updatePlan(Request $request, $id){
+	public function updatePlan(Request $request){
+        $request->validate([
+            "id"=> "required|integer",
+            "nombre"=> "required|max:255",
+            "oportunidad_plan"=> "required|max:255",
+            "semestre_ejecucion"=> "required|max:8",
+            "duracion"=> "required|integer",
+            "estado"=> "required|max:30",
+            "evaluacion_eficacia"=> "required|boolean",
+            "avance"=> "required|integer",
+        ]);
+        $id = $request->id;
         $id_user = auth()->user()->id;
         if(plan::where(["id_user"=>$id_user,"id"=>$id])->exists()){
             $plan = plan::find($id);
@@ -185,7 +196,6 @@ class PlanController extends Controller{
                 "message" => "!No se encontro el plan o no esta autorizado",
             ],404);
         }
-
     }
 
 
