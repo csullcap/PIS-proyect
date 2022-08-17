@@ -43,7 +43,7 @@ class EstandarController extends Controller
             "data" => $estandaresNombreslist,
         ]);
     }
-    
+
 
     public function showEstandar($id){
         if(Estandar::where("id",$id)->exists()){
@@ -67,7 +67,7 @@ class EstandarController extends Controller
         $id_user = auth()->user()->id;
         if(Estandar::where(["id_user"=>$id_user,"id"=>$id])->exists()){
             $estandar = Estandar::find($id);
-            $estandar->name = isset($request->name) ? $request->name : $estandar->title;
+            $estandar->name = isset($request->name) ? $request->name : $estandar->name;
             $estandar->save();
             return response([
                 "status" => 1,

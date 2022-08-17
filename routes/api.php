@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\FuentesValoresController;
 use App\Http\Controllers\Api\ResponsablesValoresController;
 use App\Http\Controllers\Api\ResponsablesController;
 use App\Http\Controllers\Api\EstadosValoresController;
+use App\Http\Controllers\Api\EvidenciasController;
 
 
 Route::post('register', [UserController::class, 'register']);
@@ -25,9 +26,9 @@ Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('responsables',[ResponsablesValoresController::class,'listResponsablesValores']);
 //fuentes Valores
 Route::get('fuentes',[FuentesValoresController::class,'listFuentesValores']);
-//Estados valores 
+//Estados valores
 Route::get('estados',[EstadosValoresController::class,'listEstadosValores']);
-//Estandares  valores 
+//Estandares  valores
 Route::get('estandares', [EstandarController::class,'listEstandarValores']);
 
 Route::middleware("auth:sanctum")->group (function(){
@@ -78,7 +79,7 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::post('recurso',[RecursosController::class,'create']);
     Route::put('recurso',[RecursosController::class,'update']);
     Route::delete('recurso/{id}',[RecursosController::class,'delete']);
-    
+
     //rutas casuasraiz
     Route::post('causa',[CausasRaicesController::class,'create']);
     Route::put('causa',[CausasRaicesController::class,'update']);
@@ -89,6 +90,12 @@ Route::middleware("auth:sanctum")->group (function(){
     Route::put('responsable',[ResponsablesController::class,'update']);
     Route::delete('responsable/{id}',[ResponsablesController::class,'delete']);
 
+	//ruta evidencias
+    Route::post('evidencia',[EvidenciasController::class,'create']);
+	Route::get('evidencia/download/{id}', [EvidenciasController::class,'download']);
+	Route::get('evidencia/{id}', [EvidenciasController::class,'show']);
+	Route::put('evidencia',[EvidenciasController::class,'update']);
+    Route::delete('evidencia/{id}',[EvidenciasController::class,'delete']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
