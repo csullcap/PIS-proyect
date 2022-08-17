@@ -69,7 +69,7 @@ class AccionesMejorasController extends Controller
         else{
             return response([
                 "status" => 0,
-                "message" => "No se encontro la meta",
+                "message" => "No se encontro la accion de mejora",
             ],404);
         }
     }
@@ -97,7 +97,7 @@ class AccionesMejorasController extends Controller
         else{
             return response([
                 "status" => 0,
-                "message" => "No se encontro la meta",
+                "message" => "No se encontro la accion de mejora",
             ],404);
         }
     }
