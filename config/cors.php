@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => ['*','localhosto:3000/*'],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => ['Google/'],
 
     'allowed_headers' => ['*'],
 
