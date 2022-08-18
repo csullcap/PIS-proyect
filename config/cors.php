@@ -15,17 +15,17 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*','/*', 'sanctum/csrf-cookie','oauth/*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*','localhosto:3000/*'],
+    'allowed_origins' => ['*','http://localhost:3000/'],
 
-    'allowed_origins_patterns' => ['Google/'],
+    'allowed_origins_patterns' =>  ['content-type', 'accept', 'x-custom-header', 'Access-Control-Allow-Origin'],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => ['*'],
+    'exposed_headers' => ['x-custom-response-header'],
 
     'max_age' => 0,
 
