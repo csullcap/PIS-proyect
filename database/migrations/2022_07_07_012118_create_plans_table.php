@@ -16,17 +16,18 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 11);
-            $table->string('nombre');
-            $table->string('oportunidad_plan');
-            $table->string('semestre_ejecucion', 7);
-            $table->integer('avance');
+            $table->string('nombre',255)->nullable();
+            $table->string('oportunidad_plan')->nullable();
+            $table->string('semestre_ejecucion', 8)->nullable();
+            $table->integer('avance')->nullable();
             $table->integer('duracion');
-            $table->string('estado', 30);
+            $table->string('estado', 30)->nullable();
             $table->boolean('evaluacion_eficacia');
             $table->foreignId('id_estandar')
                   ->constrained('estandars');
             $table->foreignId('id_user')
                   ->constrained('users');
+            $table->unique(['codigo', 'id_estandar']);
             $table->timestamps();
         });
     }

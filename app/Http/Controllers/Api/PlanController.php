@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\plan;
 use App\Models\AccionesMejoras;
@@ -22,35 +23,41 @@ class PlanController extends Controller{
     public function createPlan(Request $request){
         $request->validate([
             "estandar_id"=> "required|integer",
-            "nombre"=>"required|max:255",
-            "codigo"=> "required|max:11",
-            "fuentes"=>"required",
-            /* "fuentes.*.descripcion"=> "required", */
-            "problemas_oportunidades"=>"required",
-            /* "problemas_oportunidades.*.descripcion"=> "required", */
-            "causas_raices"=>"required",
-           /*  "causas_raices.*.descripcion"=> "required", */
-            "oportunidad_plan"=>"required|max:255",
-            "acciones_mejoras"=>"required",
-           /*  "acciones_mejoras.*.descripcion"=> "required", */
-            "semestre_ejecucion"=>"required|max:8", //aaaa-A/B/C/AB
-            "duracion"=> "required|integer",
-            "recursos"=>"required",
-            /* "recursos.*.descripcion"=> "required", */
-            "metas"=>"required",
-          /*   "metas.*.descripcion"=> "required", */
-            "responsables"=>"required",
-            /* "responsables.*.nombre"=> "required", */
-            "observaciones"=>"required",
-           /*  "observaciones.*.descripcion"=> "required", */
-            "estado"=> "required|max:30",
+            "nombre"=>"present|max:255",
+       /*      "codigo"=> "required|unique_with:plans,id_estandar|max:11", */  
+            'codigo' => [
+                'required', 
+                Rule::unique('plans', 'codigo')->where(function ($query) use ($request) {
+                    return $query->where('id_estandar', $request->estandar_id);
+                }),
+            ],
+            "fuentes"=>"present",
+            "fuentes.*.descripcion"=> "required",
+            "problemas_oportunidades"=>"present",
+            "problemas_oportunidades.*.descripcion"=> "required",
+            "causas_raices"=>"present",
+            "causas_raices.*.descripcion"=> "required", 
+            "oportunidad_plan"=>"present|max:255",
+            "acciones_mejoras"=>"present",
+            "acciones_mejoras.*.descripcion"=> "required",
+            "semestre_ejecucion"=>"present|max:8", //aaaa-A/B/C/AB
+            "duracion"=> "present|integer",
+            "recursos"=>"present",
+            "recursos.*.descripcion"=> "required", 
+            "metas"=>"present",
+            "metas.*.descripcion"=> "required", 
+            "responsables"=>"present",
+            "responsables.*.nombre"=> "required", 
+            "observaciones"=>"present",
+            "observaciones.*.descripcion"=> "required", 
+            "estado"=> "present|max:30",
             /*"evidencias_planes_mejoras"=>"required",
             "evidencias_planes_mejoras.*.codigo"=> "required",
             "evidencias_planes_mejoras.*.denominacion"=> "required",
             "evidencias_planes_mejoras.*.encargado_id"=> "required",
             "evidencias_planes_mejoras*.adjunto"=> "required",*/
-            "evaluacion_eficacia"=> "required|boolean",
-            "avance"=> "required|integer"
+            "evaluacion_eficacia"=> "present|boolean",
+            "avance"=> "present|integer"
         ]);
 
         $id_user = auth()->user()->id;
