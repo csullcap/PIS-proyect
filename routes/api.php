@@ -17,10 +17,15 @@ use App\Http\Controllers\Api\ResponsablesValoresController;
 use App\Http\Controllers\Api\ResponsablesController;
 use App\Http\Controllers\Api\EstadosValoresController;
 use App\Http\Controllers\Api\EvidenciasController;
+use App\Http\Controllers\Api\LoginController;
 
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login'])->name('login');
+
+Route::get('login/{provider}', [LoginController::class, 'redirectToProvider']);
+Route::get('login/{provider}/callback', [LoginController::class, 'handleProviderCallback']);
+
 
 //Responsables Valores
 Route::get('responsables',[ResponsablesValoresController::class,'listResponsablesValores']);
