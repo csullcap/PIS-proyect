@@ -33,4 +33,7 @@ class User extends Authenticatable
     public function evidencias(){
       return $this->hasMany(Evidencia::class,'id');
     }
+	public function providers(){
+        return $this->hasMany(Provider::class,'id_user');
+    }
 }
