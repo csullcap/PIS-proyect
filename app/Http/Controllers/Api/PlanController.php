@@ -25,24 +25,24 @@ class PlanController extends Controller{
             "nombre"=>"required|max:255",
             "codigo"=> "required|max:11",
             "fuentes"=>"required",
-            "fuentes.*.descripcion"=> "required",
+            /* "fuentes.*.descripcion"=> "required", */
             "problemas_oportunidades"=>"required",
-            "problemas_oportunidades.*.descripcion"=> "required",
+            /* "problemas_oportunidades.*.descripcion"=> "required", */
             "causas_raices"=>"required",
-            "causas_raices.*.descripcion"=> "required",
+           /*  "causas_raices.*.descripcion"=> "required", */
             "oportunidad_plan"=>"required|max:255",
             "acciones_mejoras"=>"required",
-            "acciones_mejoras.*.descripcion"=> "required",
+           /*  "acciones_mejoras.*.descripcion"=> "required", */
             "semestre_ejecucion"=>"required|max:8", //aaaa-A/B/C/AB
             "duracion"=> "required|integer",
             "recursos"=>"required",
-            "recursos.*.descripcion"=> "required",
+            /* "recursos.*.descripcion"=> "required", */
             "metas"=>"required",
-            "metas.*.descripcion"=> "required",
+          /*   "metas.*.descripcion"=> "required", */
             "responsables"=>"required",
-            "responsables.*.nombre"=> "required",
+            /* "responsables.*.nombre"=> "required", */
             "observaciones"=>"required",
-            "observaciones.*.descripcion"=> "required",
+           /*  "observaciones.*.descripcion"=> "required", */
             "estado"=> "required|max:30",
             /*"evidencias_planes_mejoras"=>"required",
             "evidencias_planes_mejoras.*.codigo"=> "required",
@@ -50,7 +50,7 @@ class PlanController extends Controller{
             "evidencias_planes_mejoras.*.encargado_id"=> "required",
             "evidencias_planes_mejoras*.adjunto"=> "required",*/
             "evaluacion_eficacia"=> "required|boolean",
-            "avance"=> "required|integer",
+            "avance"=> "required|integer"
         ]);
 
         $id_user = auth()->user()->id;
@@ -61,7 +61,6 @@ class PlanController extends Controller{
 
         $plan->nombre = $request->nombre;
         $plan->codigo = $request->codigo;
-
 
         $plan->oportunidad_plan = $request->oportunidad_plan;
         $plan->semestre_ejecucion = $request->semestre_ejecucion;
