@@ -15,18 +15,185 @@ use App\Models\Observaciones;
 use App\Models\ProblemasOportunidades;
 use App\Models\Recursos;
 use App\Models\Responsables;
-
+use App\Models\Estandar;
 
 class PlanController extends Controller{
 
+	public function update(Request $request,$id){
+
+		//Actualizamos los atributos propios
+        $plan = plan::find($id);
+        $plan -> update([
+			//"codigo" => $request->codigo,
+			"nombre" => $request->nombre,
+			"oportunidad_plan" => $request->oportunidad_plan,
+			"semestre_ejecucion" => $request->semestre_ejecucion,
+			"duracion" => $request->duracion,
+			"estado" => $request->estado,
+			"evaluacion_eficacia" => $request->evaluacion_eficacia,
+			"avance" => $request->avance,
+		]);
+
+		//Actualizar estandar
+		$estandar = Estandar::find($request->estandar_id);
+		if(isset($estandar)){
+			$plan->estandars()->associate($estandar);
+		}
+		/*-------------------------------Fuentes------------------------------*/
+		$fuentes = $request->fuentes;
+		//Eliminar fuentes que no esten en el Request
+		$existingsIds = collect($fuentes)->pluck('fuente_id')->filter();
+		$plan->fuentes()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar fuentes de estandar
+		if(isset($fuentes)){
+			foreach($fuentes as $fuente){
+				 $plan->fuentes()->updateOrCreate(
+					[
+ 						"id" => $fuente['fuente_id']
+ 					],
+					[
+						"descripcion" => $fuente['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*----------------------------Problemas-------------------------------*/
+		$problemas = $request->problemas;
+		//Eliminar problemas que no esten en el Request
+		$existingsIds = collect($problemas)->pluck('problema_id')->filter();
+		$plan->problemasOportunidade()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar problemas de estandar
+		if(isset($problemas)){
+			foreach($problemas as $problema){
+				 $plan->problemasOportunidade()->updateOrCreate(
+					[
+ 						"id" => $problema['problema_id']
+ 					],
+					[
+						"descripcion" => $problema['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*--------------------------------Causas-------------------------------*/
+		$causas = $request->causas;
+		//Eliminar causas que no esten en el Request
+		$existingsIds = collect($causas)->pluck('causa_id')->filter();
+		$plan->causasRaices()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar causas de estandar
+		if(isset($causas)){
+			foreach($causas as $causa){
+				 $plan->causasRaices()->updateOrCreate(
+					[
+ 						"id" => $causa['causa_id']
+ 					],
+					[
+						"descripcion" => $causa['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*------------------------------Acciones-------------------------------*/
+		$acciones = $request->acciones;
+		//Eliminar acciones que no esten en el Request
+		$existingsIds = collect($acciones)->pluck('accion_id')->filter();
+		$plan->accionesMejoras()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar acciones de estandar
+		if(isset($acciones)){
+			foreach($acciones as $accion){
+				 $plan->accionesMejoras()->updateOrCreate(
+					[
+ 						"id" => $accion['accion_id']
+ 					],
+					[
+						"descripcion" => $accion['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*------------------------------Recursos-------------------------------*/
+		$recursos = $request->recursos;
+		//Eliminar recursos que no esten en el Request
+		$existingsIds = collect($recursos)->pluck('meta_id')->filter();
+		$plan->recursos()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar recursos de estandar
+		if(isset($recursos)){
+			foreach($recursos as $recurso){
+				 $plan->recursos()->updateOrCreate(
+					[
+ 						"id" => $recurso['recurso_id']
+ 					],
+					[
+						"descripcion" => $recurso['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*--------------------------------Metas-------------------------------*/
+		$metas = $request->metas;
+		//Eliminar metas que no esten en el Request
+		$existingsIds = collect($metas)->pluck('meta_id')->filter();
+		$plan->metas()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar metas de estandar
+		if(isset($metas)){
+			foreach($metas as $meta){
+				 $plan->metas()->updateOrCreate(
+					[
+ 						"id" => $meta['meta_id']
+ 					],
+					[
+						"descripcion" => $meta['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*---------------------------Responsables-------------------------------*/
+		$responsables = $request->responsables;
+		//Eliminar responsables que no esten en el Request
+		$existingsIds = collect($responsables)->pluck('responsable_id')->filter();
+		$plan->responsables()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar responsables de estandar
+		if(isset($responsables)){
+			foreach($responsables as $responsable){
+				 $plan->responsables()->updateOrCreate(
+					[
+ 						"id" => $responsable['responsable_id']
+ 					],
+					[
+						"nombre" => $responsable['nombre'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+		/*--------------------------Observaciones-------------------------------*/
+		$observaciones = $request->observaciones;
+		//Eliminar observaciones que no esten en el Request
+		$existingsIds = collect($observaciones)->pluck('observacion_id')->filter();
+		$plan->observaciones()->whereNotIn('id', $existingsIds)->delete();
+		//Actualizar observaciones de estandar
+		if(isset($observaciones)){
+			foreach($observaciones as $observacion){
+				 $plan->observaciones()->updateOrCreate(
+					[
+ 						"id" => $observacion['observacion_id']
+ 					],
+					[
+						"descripcion" => $observacion['descripcion'],
+						"id_plan"=> $plan->id
+					]);
+			}
+		}
+
+        return response()->json($plan, 200);
+	}
      // Arreglar el formato de IDs
     public function createPlan(Request $request){
         $request->validate([
             "estandar_id"=> "required|integer",
             "nombre"=>"present|max:255",
-       /*      "codigo"=> "required|unique_with:plans,id_estandar|max:11", */  
+       /*      "codigo"=> "required|unique_with:plans,id_estandar|max:11", */
             'codigo' => [
-                'required', 
+                'required',
                 Rule::unique('plans', 'codigo')->where(function ($query) use ($request) {
                     return $query->where('id_estandar', $request->estandar_id);
                 }),
@@ -36,20 +203,20 @@ class PlanController extends Controller{
             "problemas_oportunidades"=>"present",
             "problemas_oportunidades.*.descripcion"=> "required",
             "causas_raices"=>"present",
-            "causas_raices.*.descripcion"=> "required", 
+            "causas_raices.*.descripcion"=> "required",
             "oportunidad_plan"=>"present|max:255",
             "acciones_mejoras"=>"present",
             "acciones_mejoras.*.descripcion"=> "required",
             "semestre_ejecucion"=>"present|max:8", //aaaa-A/B/C/AB
             "duracion"=> "present|integer",
             "recursos"=>"present",
-            "recursos.*.descripcion"=> "required", 
+            "recursos.*.descripcion"=> "required",
             "metas"=>"present",
-            "metas.*.descripcion"=> "required", 
+            "metas.*.descripcion"=> "required",
             "responsables"=>"present",
-            "responsables.*.nombre"=> "required", 
+            "responsables.*.nombre"=> "required",
             "observaciones"=>"present",
-            "observaciones.*.descripcion"=> "required", 
+            "observaciones.*.descripcion"=> "required",
             "estado"=> "present|max:30",
             /*"evidencias_planes_mejoras"=>"required",
             "evidencias_planes_mejoras.*.codigo"=> "required",
@@ -204,7 +371,6 @@ class PlanController extends Controller{
         }
     }
 
-
     public function deletePlan($id){
         $id_user = auth()->user()->id;
         if(plan::where(["id"=>$id,"id_user"=>$id_user])->exists()){
@@ -222,7 +388,6 @@ class PlanController extends Controller{
             ],404);
         }
     }
-
     //faltas completar
     public function showPlan($id){
         if(plan::where("id",$id)->exists()){

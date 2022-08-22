@@ -31,30 +31,30 @@ class plan extends Model
         return $this->belongsTo(Estandar::class,'id_estandar');
     }
     public function fuentes(){
-        return $this->hasMany(Fuentes::class,'id');
+        return $this->hasMany(Fuentes::class,'id_plan');
     }
     public function metas(){
-        return $this->hasMany(Metas::class,'id');
+        return $this->hasMany(Metas::class,'id_plan');
     }
     public function recursos(){
-        return $this->hasMany(Recursos::class,'id');
+        return $this->hasMany(Recursos::class,'id_plan');
     }
     public function observaciones(){
-        return $this->hasMany(Observaciones::class,'id');
+        return $this->hasMany(Observaciones::class,'id_plan');
     }
     public function problemasOportunidade(){
-        return $this->hasMany(ProblemasOportunidades::class,'id');
+        return $this->hasMany(ProblemasOportunidades::class,'id_plan');
     }
     public function accionesMejoras(){
-        return $this->hasMany(AccionesMejoras::class,'id');
+        return $this->hasMany(AccionesMejoras::class,'id_plan');
     }
     public function causasRaices(){
-        return $this->hasMany(causasRaices::class,'id');
-    } 
-    public function responsablesplanesmejora(){
-        return $this->hasMany(ResponsablesPlanesMejora::class,'id');
+        return $this->hasMany(causasRaices::class,'id_plan');
+    }
+    public function responsables(){
+        return $this->hasMany(Responsables::class,'id_plan');
     }
     //
-  
+
 
 }

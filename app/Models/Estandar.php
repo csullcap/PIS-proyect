@@ -20,7 +20,7 @@ class Estandar extends Model
         return $this->belongsTo(User::class,'id_user');
     }
     public function plans(){
-        return $this->hasMany(plan::class,'id');
+        return $this->hasMany(plan::class,'id_estandar');
     }
 
 }
