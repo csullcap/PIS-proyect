@@ -400,6 +400,7 @@ class PlanController extends Controller{
             $plan->metas = Metas::where("id_plan",$id)->get();
             $plan->observaciones = Observaciones::where("id_plan",$id)->get();
             $plan->evidencias_planes_mejoras = Evidencias::where("id_plan",$id)->get();
+			$plan->responsables = Responsables::where("id_plan",$id)->get();
             return response([
                 "status" => 1,
                 "message" => "!Plan de mejora encontrado",
