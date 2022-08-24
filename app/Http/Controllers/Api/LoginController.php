@@ -64,7 +64,7 @@ class LoginController extends Controller{
 		$token = $userCreated->createToken('token-auth_token')->plainTextToken;
 		return response()->json([
 			"message" => "Usuario logueado",
-			"user" =>  $userCreated,s
+			"user" =>  $userCreated,
 			"image" =>  $userProvider->getAvatar(),
 
  			"access_token" => $token
