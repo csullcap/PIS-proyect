@@ -75,7 +75,7 @@ class PlanController extends Controller{
 			}
 		}
 		/*--------------------------------Causas-------------------------------*/
-		$causas = $request->causas;
+		$causas = $request->causas_raices;
 		//Eliminar causas que no esten en el Request
 		$existingsIds = collect($causas)->pluck('id')->filter();
 		$plan->causasRaices()->whereNotIn('id', $existingsIds)->delete();
@@ -386,15 +386,14 @@ class PlanController extends Controller{
     public function showPlan($id){
         if(plan::where("id",$id)->exists()){
             $plan = plan::find($id);
-            $plan->fuentes = Fuentes::where("id_plan",$id)->get();
-            $plan->problemas_oportunidades = ProblemasOportunidades::where("id_plan",$id)->get();
-            $plan->causas_raices = CausasRaices::where("id_plan",$id)->get();
-            $plan->acciones_mejoras = AccionesMejoras::where("id_plan",$id)->get();
-            $plan->recursos = Recursos::where("id_plan",$id)->get();
-            $plan->metas = Metas::where("id_plan",$id)->get();
-            $plan->observaciones = Observaciones::where("id_plan",$id)->get();
-            $plan->evidencias_planes_mejoras = Evidencias::where("id_plan",$id)->get();
-            $plan->responsables = Responsables::where("id_plan",$id)->get();
+            $plan->fuentes = Fuentes::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->problemas_oportunidades = ProblemasOportunidades::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->causas_raices = CausasRaices::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->acciones_mejoras = AccionesMejoras::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->recursos = Recursos::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->metas = Metas::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->observaciones = Observaciones::where("id_plan",$id)->get(['id', 'descripcion as value']);
+            $plan->responsables = Responsables::where("id_plan",$id)->get(['id', 'nombre as value']);
             $plan->evidencias = Evidencias::where("id_plan",$id)->get();
             return response([
                 "status" => 1,
