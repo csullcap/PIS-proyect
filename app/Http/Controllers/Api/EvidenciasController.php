@@ -27,7 +27,7 @@ class EvidenciasController extends Controller
             if($plan->id_user == $id_user){
                 $evidencia = new Evidencias();
                 $evidencia->id_plan = $request->id_plan;
-                $evidencia->codigo = $plan->codigo;				
+                $evidencia->codigo = $plan->codigo;
 				$evidencia->denominacion = $request->denominacion;
 				error_log($request->denominacion);
 				$path = $request->adjunto->store('evidencias');
@@ -37,7 +37,7 @@ class EvidenciasController extends Controller
                 return response([
                     "status" => 1,
                     "message" => "Evidencia creada exitosamente",
-					"id" => $evidencia
+					"evidencia" => $evidencia
                 ]);
             }
             else{
