@@ -49,7 +49,7 @@ class plan extends Model
         return $this->hasMany(AccionesMejoras::class,'id_plan');
     }
     public function causasRaices(){
-        return $this->hasMany(causasRaices::class,'id_plan');
+        return $this->hasMany(CausasRaices::class,'id_plan');
     }
     public function responsables(){
         return $this->hasMany(Responsables::class,'id_plan');
