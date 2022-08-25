@@ -34,10 +34,10 @@ class PlanController extends Controller{
 		]);
 
 		//Actualizar estandar
-		$estandar = Estandar::find($request->id_estandar);
+		/*$estandar = Estandar::find($request->id_estandar);
 		if(isset($estandar)){
 			$plan->estandars()->associate($estandar);
-		}
+		}*/
 		/*-------------------------------Fuentes------------------------------*/
 		$fuentes = $request->fuentes;
 		//Eliminar fuentes que no esten en el Request
