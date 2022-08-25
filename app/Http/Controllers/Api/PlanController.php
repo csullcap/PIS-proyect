@@ -34,7 +34,7 @@ class PlanController extends Controller{
 		]);
 
 		//Actualizar estandar
-		$estandar = Estandar::find($request->estandar_id);
+		$estandar = Estandar::find($request->id_estandar);
 		if(isset($estandar)){
 			$plan->estandars()->associate($estandar);
 		}
@@ -189,13 +189,13 @@ class PlanController extends Controller{
      // Arreglar el formato de IDs
     public function createPlan(Request $request){
         $request->validate([
-            "estandar_id"=> "required|integer",
+            "id_estandar"=> "required|integer",
             "nombre"=>"present|max:255",
        /*      "codigo"=> "required|unique_with:plans,id_estandar|max:11", */
             'codigo' => [
                 'required',
                 Rule::unique('plans', 'codigo')->where(function ($query) use ($request) {
-                    return $query->where('id_estandar', $request->estandar_id);
+                    return $query->where('id_estandar', $request->id_estandar);
                 }),
             ],
             "fuentes"=>"present",
@@ -226,7 +226,7 @@ class PlanController extends Controller{
         $plan = new plan();
 
         $plan->id_user = $id_user;
-        $plan->id_estandar = $request->estandar_id;                     //actualizar a estandar_id
+        $plan->id_estandar = $request->id_estandar;                     //actualizar a id_estandar
 
         $plan->nombre = $request->nombre;
         $plan->codigo = $request->codigo;
@@ -243,56 +243,56 @@ class PlanController extends Controller{
 
         foreach($request->fuentes as $fuente){
             $fuente_aux = new Fuentes();
-            $fuente_aux->descripcion = $fuente["descripcion"];
+            $fuente_aux->descripcion = $fuente["value"];
             $fuente_aux->id_plan = $id_plan;
             $fuente_aux->save();
         }
 
         foreach($request->problemas_oportunidades as $problema){
             $problema_oportunidad_aux = new ProblemasOportunidades();
-            $problema_oportunidad_aux->descripcion = $problema["descripcion"];
+            $problema_oportunidad_aux->descripcion = $problema["value"];
             $problema_oportunidad_aux->id_plan = $id_plan;
             $problema_oportunidad_aux->save();
         }
 
         foreach($request->causas_raices as $causa){
             $causa_raiz_aux = new CausasRaices();
-            $causa_raiz_aux->descripcion = $causa["descripcion"];
+            $causa_raiz_aux->descripcion = $causa["value"];
             $causa_raiz_aux->id_plan = $id_plan;
             $causa_raiz_aux->save();
         }
 
         foreach($request->acciones_mejoras as $accion){
             $accion_mejora_aux = new AccionesMejoras();
-            $accion_mejora_aux->descripcion = $accion["descripcion"];
+            $accion_mejora_aux->descripcion = $accion["value"];
             $accion_mejora_aux->id_plan = $id_plan;
             $accion_mejora_aux->save();
         }
 
         foreach($request->recursos as $recurso){
             $recurso_aux = new Recursos();
-            $recurso_aux->descripcion = $recurso["descripcion"];
+            $recurso_aux->descripcion = $recurso["value"];
             $recurso_aux->id_plan = $id_plan;
             $recurso_aux->save();
         }
 
         foreach($request->metas as $meta){
             $meta_aux = new Metas();
-            $meta_aux->descripcion = $meta["descripcion"];
+            $meta_aux->descripcion = $meta["value"];
             $meta_aux->id_plan = $id_plan;
             $meta_aux->save();
         }
 
         foreach($request->observaciones as $observacion){
             $observacion_aux = new Observaciones();
-            $observacion_aux->descripcion = $observacion["descripcion"];
+            $observacion_aux->descripcion = $observacion["value"];
             $observacion_aux->id_plan = $id_plan;
             $observacion_aux->save();
         }
 
         foreach($request->responsables as $responsable){
             $responsable_aux = new Responsables();
-            $responsable_aux ->nombre = $responsable["nombre"];
+            $responsable_aux ->nombre = $responsable["value"];
             $responsable_aux ->id_plan = $id_plan;
             $responsable_aux ->save();
         }

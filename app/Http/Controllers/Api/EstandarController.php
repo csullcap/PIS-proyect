@@ -34,7 +34,7 @@ class EstandarController extends Controller
     }
 
     public function listEstandarValores(){
-        $estandaresNombreslist = Estandar::select('estandars.name')
+        $estandaresNombreslist = Estandar::select('estandars.name','estandars.id')
                                 ->orderBy('estandars.id','asc')
                                 ->get();
         return response([
