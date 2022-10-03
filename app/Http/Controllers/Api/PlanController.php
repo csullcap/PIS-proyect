@@ -20,170 +20,179 @@ use App\Models\Responsables;
 class PlanController extends Controller{
 	public function update(Request $request,$id){
 
-		//Actualizamos los atributos propios
-        $plan = plan::find($id);
-        $plan -> update([
-			//"codigo" => $request->codigo,
-			"nombre" => $request->nombre,
-			"oportunidad_plan" => $request->oportunidad_plan,
-			"semestre_ejecucion" => $request->semestre_ejecucion,
-			"duracion" => $request->duracion,
-			"estado" => $request->estado,
-			"evaluacion_eficacia" => $request->evaluacion_eficacia,
-			"avance" => $request->avance,
-		]);
+        $id_user = auth()->user()->id;
+        if(plan::where(["id_user"=>$id_user,"id"=>$id])->exists()){
+			//Actualizamos los atributos propios
+	        $plan = plan::find($id);
+	        $plan -> update([
+				//"codigo" => $request->codigo,
+				"nombre" => $request->nombre,
+				"oportunidad_plan" => $request->oportunidad_plan,
+				"semestre_ejecucion" => $request->semestre_ejecucion,
+				"duracion" => $request->duracion,
+				"estado" => $request->estado,
+				"evaluacion_eficacia" => $request->evaluacion_eficacia,
+				"avance" => $request->avance,
+			]);
 
-		//Actualizar estandar
-		/*$estandar = Estandar::find($request->id_estandar);
-		if(isset($estandar)){
-			$plan->estandars()->associate($estandar);
-		}*/
-		/*-------------------------------Fuentes------------------------------*/
-		$fuentes = $request->fuentes;
-		//Eliminar fuentes que no esten en el Request
-		$existingsIds = collect($fuentes)->pluck('id')->filter();
-		$plan->fuentes()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar fuentes de estandar
-		if(isset($fuentes)){
-			foreach($fuentes as $fuente){
-				 $plan->fuentes()->updateOrCreate(
-					[
- 						"id" => $fuente['id']
- 					],
-					[
-						"descripcion" => $fuente['value'],
-						"id_plan"=> $plan->id
-					]);
+			//Actualizar estandar
+			/*$estandar = Estandar::find($request->id_estandar);
+			if(isset($estandar)){
+				$plan->estandars()->associate($estandar);
+			}*/
+			/*-------------------------------Fuentes------------------------------*/
+			$fuentes = $request->fuentes;
+			//Eliminar fuentes que no esten en el Request
+			$existingsIds = collect($fuentes)->pluck('id')->filter();
+			$plan->fuentes()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar fuentes de estandar
+			if(isset($fuentes)){
+				foreach($fuentes as $fuente){
+					 $plan->fuentes()->updateOrCreate(
+						[
+	 						"id" => $fuente['id']
+	 					],
+						[
+							"descripcion" => $fuente['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*----------------------------Problemas-------------------------------*/
-		$problemas = $request->problemas;
-		//Eliminar problemas que no esten en el Request
-		$existingsIds = collect($problemas)->pluck('id')->filter();
-		$plan->problemasOportunidade()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar problemas de estandar
-		if(isset($problemas)){
-			foreach($problemas as $problema){
-				 $plan->problemasOportunidade()->updateOrCreate(
-					[
- 						"id" => $problema['id']
- 					],
-					[
-						"descripcion" => $problema['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*----------------------------Problemas-------------------------------*/
+			$problemas = $request->problemas;
+			//Eliminar problemas que no esten en el Request
+			$existingsIds = collect($problemas)->pluck('id')->filter();
+			$plan->problemasOportunidade()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar problemas de estandar
+			if(isset($problemas)){
+				foreach($problemas as $problema){
+					 $plan->problemasOportunidade()->updateOrCreate(
+						[
+	 						"id" => $problema['id']
+	 					],
+						[
+							"descripcion" => $problema['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*--------------------------------Causas-------------------------------*/
-		$causas = $request->causas_raices;
-		//Eliminar causas que no esten en el Request
-		$existingsIds = collect($causas)->pluck('id')->filter();
-		$plan->causasRaices()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar causas de estandar
-		if(isset($causas)){
-			foreach($causas as $causa){
-				 $plan->causasRaices()->updateOrCreate(
-					[
- 						"id" => $causa['id']
- 					],
-					[
-						"descripcion" => $causa['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*--------------------------------Causas-------------------------------*/
+			$causas = $request->causas_raices;
+			//Eliminar causas que no esten en el Request
+			$existingsIds = collect($causas)->pluck('id')->filter();
+			$plan->causasRaices()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar causas de estandar
+			if(isset($causas)){
+				foreach($causas as $causa){
+					 $plan->causasRaices()->updateOrCreate(
+						[
+	 						"id" => $causa['id']
+	 					],
+						[
+							"descripcion" => $causa['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*------------------------------Acciones-------------------------------*/
-		$acciones = $request->acciones;
-		//Eliminar acciones que no esten en el Request
-		$existingsIds = collect($acciones)->pluck('id')->filter();
-		$plan->accionesMejoras()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar acciones de estandar
-		if(isset($acciones)){
-			foreach($acciones as $accion){
-				 $plan->accionesMejoras()->updateOrCreate(
-					[
- 						"id" => $accion['id']
- 					],
-					[
-						"descripcion" => $accion['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*------------------------------Acciones-------------------------------*/
+			$acciones = $request->acciones;
+			//Eliminar acciones que no esten en el Request
+			$existingsIds = collect($acciones)->pluck('id')->filter();
+			$plan->accionesMejoras()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar acciones de estandar
+			if(isset($acciones)){
+				foreach($acciones as $accion){
+					 $plan->accionesMejoras()->updateOrCreate(
+						[
+	 						"id" => $accion['id']
+	 					],
+						[
+							"descripcion" => $accion['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*------------------------------Recursos-------------------------------*/
-		$recursos = $request->recursos;
-		//Eliminar recursos que no esten en el Request
-		$existingsIds = collect($recursos)->pluck('id')->filter();
-		$plan->recursos()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar recursos de estandar
-		if(isset($recursos)){
-			foreach($recursos as $recurso){
-				 $plan->recursos()->updateOrCreate(
-					[
- 						"id" => $recurso['id']
- 					],
-					[
-						"descripcion" => $recurso['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*------------------------------Recursos-------------------------------*/
+			$recursos = $request->recursos;
+			//Eliminar recursos que no esten en el Request
+			$existingsIds = collect($recursos)->pluck('id')->filter();
+			$plan->recursos()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar recursos de estandar
+			if(isset($recursos)){
+				foreach($recursos as $recurso){
+					 $plan->recursos()->updateOrCreate(
+						[
+	 						"id" => $recurso['id']
+	 					],
+						[
+							"descripcion" => $recurso['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*--------------------------------Metas-------------------------------*/
-		$metas = $request->metas;
-		//Eliminar metas que no esten en el Request
-		$existingsIds = collect($metas)->pluck('id')->filter();
-		$plan->metas()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar metas de estandar
-		if(isset($metas)){
-			foreach($metas as $meta){
-				 $plan->metas()->updateOrCreate(
-					[
- 						"id" => $meta['id']
- 					],
-					[
-						"descripcion" => $meta['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*--------------------------------Metas-------------------------------*/
+			$metas = $request->metas;
+			//Eliminar metas que no esten en el Request
+			$existingsIds = collect($metas)->pluck('id')->filter();
+			$plan->metas()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar metas de estandar
+			if(isset($metas)){
+				foreach($metas as $meta){
+					 $plan->metas()->updateOrCreate(
+						[
+	 						"id" => $meta['id']
+	 					],
+						[
+							"descripcion" => $meta['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*---------------------------Responsables-------------------------------*/
-		$responsables = $request->responsables;
-		//Eliminar responsables que no esten en el Request
-		$existingsIds = collect($responsables)->pluck('id')->filter();
-		$plan->responsables()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar responsables de estandar
-		if(isset($responsables)){
-			foreach($responsables as $responsable){
-				 $plan->responsables()->updateOrCreate(
-					[
- 						"id" => $responsable['id']
- 					],
-					[
-						"nombre" => $responsable['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*---------------------------Responsables-------------------------------*/
+			$responsables = $request->responsables;
+			//Eliminar responsables que no esten en el Request
+			$existingsIds = collect($responsables)->pluck('id')->filter();
+			$plan->responsables()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar responsables de estandar
+			if(isset($responsables)){
+				foreach($responsables as $responsable){
+					 $plan->responsables()->updateOrCreate(
+						[
+	 						"id" => $responsable['id']
+	 					],
+						[
+							"nombre" => $responsable['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
-		}
-		/*--------------------------Observaciones-------------------------------*/
-		$observaciones = $request->observaciones;
-		//Eliminar observaciones que no esten en el Request
-		$existingsIds = collect($observaciones)->pluck('id')->filter();
-		$plan->observaciones()->whereNotIn('id', $existingsIds)->delete();
-		//Actualizar observaciones de estandar
-		if(isset($observaciones)){
-			foreach($observaciones as $observacion){
-				 $plan->observaciones()->updateOrCreate(
-					[
- 						"id" => $observacion['id']
- 					],
-					[
-						"descripcion" => $observacion['value'],
-						"id_plan"=> $plan->id
-					]);
+			/*--------------------------Observaciones-------------------------------*/
+			$observaciones = $request->observaciones;
+			//Eliminar observaciones que no esten en el Request
+			$existingsIds = collect($observaciones)->pluck('id')->filter();
+			$plan->observaciones()->whereNotIn('id', $existingsIds)->delete();
+			//Actualizar observaciones de estandar
+			if(isset($observaciones)){
+				foreach($observaciones as $observacion){
+					 $plan->observaciones()->updateOrCreate(
+						[
+	 						"id" => $observacion['id']
+	 					],
+						[
+							"descripcion" => $observacion['value'],
+							"id_plan"=> $plan->id
+						]);
+				}
 			}
+			return response()->json($plan, 200);
 		}
+		else{
+            return response([
+                "status" => 0,
+                "message" => "!No se encontro el plan o no esta autorizado",
+            ],404);
+        }
 
-        return response()->json($plan, 200);
 	}
 
      // Arreglar el formato de IDs
