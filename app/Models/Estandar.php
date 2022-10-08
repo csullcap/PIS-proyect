@@ -22,5 +22,8 @@ class Estandar extends Model
     public function plans(){
         return $this->hasMany(plan::class,'id_estandar');
     }
+	public function narrativas(){
+        return $this->hasMany(narrativa::class,'id_narrativa');
+    }
 
 }
