@@ -19,8 +19,8 @@ return new class extends Migration
 			$table->string('semestre',255);
 			$table->mediumText('cabecera');
 			$table->mediumText('contenido');
-			$table->foreignId('id_plan')
-                  ->constrained('plans')
+			$table->foreignId('id_estandar')
+                  ->constrained('estandars')
                   ->onDelete('cascade');
             $table->timestamps();
         });
