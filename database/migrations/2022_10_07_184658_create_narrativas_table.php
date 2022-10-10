@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('narrativas', function (Blueprint $table) {
             $table->id();
-			$table->integer('year');
-			$table->string('semestre',255);
-			$table->mediumText('cabecera');
-			$table->mediumText('contenido');
-			$table->foreignId('id_estandar')
-                  ->constrained('estandars')
-                  ->onDelete('cascade');
+            $table->string('semestre', 255);
+            $table->mediumText('cabecera');
+            $table->mediumText('contenido');
+            $table->foreignId('id_estandar')
+                ->constrained('estandars')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
