@@ -9,15 +9,15 @@ class Narrativa extends Model
 {
     use HasFactory;
 
-	protected $table ='narrativas';
+    protected $table = 'narrativas';
     protected $fillable = [
-        'year',
         'semestre',
         'cabecera',
-		'contenido',
+        'contenido',
     ];
 
-	public function estandars(){
-        return $this->belongsTo(Estandar::class,'id_estandar');
+    public function estandars()
+    {
+        return $this->belongsTo(Estandar::class, 'id_estandar');
     }
 }

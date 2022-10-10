@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('evidencias', function (Blueprint $table) {
+        Schema::create('evidencias_narrativas', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 16);
             $table->string('denominacion', 255);
             $table->string('adjunto', 255);
-            $table->foreignId('id_user')
-                ->constrained('users');
-            $table->foreignId('id_plan')
-                ->constrained('plans')
+            $table->foreignId('id_narrativa')
+                ->constrained('narrativas')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evidencias');
+        Schema::dropIfExists('evidencias_narrativas');
     }
 };
