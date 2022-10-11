@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-       
+
         //Usuarios
         \App\Models\User::factory()->create([
             "name"=>"Alexis",
@@ -59,41 +59,50 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Estandar::factory()->create([
             "name"=>"E-1 Propositos Articulados",
+			"cabecera"=>"Cabecera de Estandar 1",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-2 Participacion de los Grupos de Interes",
+			"cabecera"=>"Cabecera de Estandar 2",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-3 Revision Periodica  de las Politicas y Objetivos",
+			"cabecera"=>"Cabecera de Estandar 3",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-4 Sostenibilidad",
+			"cabecera"=>"Cabecera de Estandar 4",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-5 Pertinencia del Perfil de Egreso",
+			"cabecera"=>"Cabecera de Estandar 5",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-6 Revision del Perfil de Egreso",
+			"cabecera"=>"Cabecera de Estandar 6",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-7 Sistema de Gestion de la Calidad",
+			"cabecera"=>"Cabecera de Estandar 7",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-8 Planes de Mejora",
+			"cabecera"=>"Cabecera de Estandar 8",
             "id_user"=>1,
          ]);
          \App\Models\Estandar::factory()->create([
             "name"=>"E-9 Planes de Mejora",
+			"cabecera"=>"Cabecera de Estandar 9",
             "id_user"=>1,
          ]);
-         
+
          //Fuentes valores
 
          \App\Models\FuentesValores::factory()->create([
@@ -135,7 +144,7 @@ class DatabaseSeeder extends Seeder
          ;\App\Models\ResponsablesValores::factory()->create([
             "valor"=>"Comisión de desarrollo docente",
          ]);
-         
+
          // Estados valores : Planificado, Programado, Reprogramado, En proceso o Concluido.
 
          ;\App\Models\EstadosValores::factory()->create([
