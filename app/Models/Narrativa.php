@@ -12,7 +12,6 @@ class Narrativa extends Model
     protected $table = 'narrativas';
     protected $fillable = [
         'semestre',
-        'cabecera',
         'contenido',
     ];
 

@@ -18,7 +18,7 @@ use App\Http\Controllers\Api\ResponsablesController;
 use App\Http\Controllers\Api\EstadosValoresController;
 use App\Http\Controllers\Api\EvidenciasController;
 use App\Http\Controllers\Api\LoginController;
-
+use App\Http\Controllers\Api\NarrativasController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login'])->name('login');
@@ -104,6 +104,12 @@ Route::middleware("auth:sanctum")->group (function(){
 	Route::get('evidencia/{id}', [EvidenciasController::class,'show']);
 	Route::put('evidencia',[EvidenciasController::class,'update']);
     Route::delete('evidencia/{id}',[EvidenciasController::class,'delete']);
+
+	//ruta narrativas
+    Route::post('narrativa',[NarrativasController::class,'create']);
+	Route::get('narrativa/{id}', [NarrativasController::class,'show']);
+	Route::put('narrativa',[NarrativasController::class,'update']);
+    Route::delete('narrativa/{id}',[NarrativasController::class,'delete']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
