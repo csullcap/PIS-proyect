@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('estandars', function (Blueprint $table) {
             $table->id();
             $table->string('name'); //cambiar el name por nombre
+			$table->mediumText('cabecera');
             $table->timestamps();
             //$table->foreign('id_user')->references('id')->on('users');
             $table->foreignId('id_user')

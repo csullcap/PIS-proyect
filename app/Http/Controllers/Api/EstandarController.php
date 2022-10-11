@@ -12,15 +12,18 @@ class EstandarController extends Controller
     public function createEstandar(Request $request){
         $request->validate([
             "name"=>"required",
+			"cabecera"=>"required",
         ]);
         $id_user = auth()->user()->id;
         $estandar = new Estandar();
         $estandar->id_user = $id_user;
         $estandar->name = $request->name;
+		$estandar->cabecera = $request->cabecera;
         $estandar->save();
         return response([
             "status" => 1,
             "msg" => "!Estandar creado exitosamente",
+			"data" => $estandar,
         ]);
     }
 
