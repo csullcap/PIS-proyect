@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('narrativas', function (Blueprint $table) {
             $table->id();
-            $table->string('semestre', 255);
+            $table->string('semestre', 8);
             $table->mediumText('contenido');
             $table->foreignId('id_estandar')
                 ->constrained('estandars')
