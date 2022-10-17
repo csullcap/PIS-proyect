@@ -87,4 +87,12 @@ class NarrativasController extends Controller{
           ],404);
         }
 	}
+	public function listNarrativas(){
+        $narrativas = Narrativas::all();
+        return response([
+            "status" => 1,
+            "msg" => "!Lista de Narrativas",
+            "data" => $narrativas,
+        ]);
+    }
 }

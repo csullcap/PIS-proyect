@@ -110,6 +110,7 @@ Route::middleware("auth:sanctum")->group (function(){
 	Route::get('narrativa/{id}', [NarrativasController::class,'show']);
 	Route::put('narrativa',[NarrativasController::class,'update']);
     Route::delete('narrativa/{id}',[NarrativasController::class,'delete']);
+	Route::get('narrativa', [NarrativasController::class,'listNarrativas']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
