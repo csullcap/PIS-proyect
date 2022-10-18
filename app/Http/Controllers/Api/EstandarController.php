@@ -71,6 +71,7 @@ class EstandarController extends Controller
         if(Estandar::where(["id_user"=>$id_user,"id"=>$id])->exists()){
             $estandar = Estandar::find($id);
             $estandar->name = isset($request->name) ? $request->name : $estandar->name;
+			$estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
             $estandar->save();
             return response([
                 "status" => 1,
