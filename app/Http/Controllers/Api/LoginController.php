@@ -20,7 +20,7 @@ class LoginController extends Controller
 		if (!is_null($validated)) {
 			return $validated;
 		}
-		return Socialite::driver($provider)->redirect();
+		return Socialite::driver($provider)->stateless()->redirect();
 		//return Socialite::driver($provider)->redirect();
 	}
 
