@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;;
-
+use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
 
 class LoginController extends Controller
 {
