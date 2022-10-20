@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Estandar;
 use App\Models\Narrativa;
+
+
 //edita solo contenido
 //eliminar
 // Cabecera endopoint unico
+
 class NarrativasController extends Controller
 {
 
