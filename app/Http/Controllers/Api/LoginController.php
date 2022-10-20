@@ -33,7 +33,7 @@ class LoginController extends Controller
 		}
 
 		try {
-			$userProvider = Socialite::driver($provider)->user();
+			$userProvider = Socialite::driver($provider)->stateless()->user();
 		} catch (ClientException $exception) {
 			return response()->json(['error' => 'Credenciales de google invalidas.'], 422);
 		}
