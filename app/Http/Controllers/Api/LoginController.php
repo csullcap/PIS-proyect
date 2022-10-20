@@ -31,44 +31,49 @@ class LoginController extends Controller{
 
 		 try {
 			 $userProvider = Socialite::driver($provider) ->stateless()->user();
-			 error_log(json_encode($userProvider->user));
 		 }
 		 catch (ClientException $exception) {
 			 return response()->json(['error' => 'Credenciales de google invalidas.'],422);
 		 }
 
+		 if(isset(User::where("email","=", $userProvider->email)->first()){
+			 $userCreated = User::firstOrCreate(
+				 [
+					 'email' => $userProvider->email
+				 ],
+				 [
+					 //'email_verified_at' => now(),
+					 'name' => $userProvider->user['given_name'],
+					 'lastname' => $userProvider->user['family_name'],
+					 'status' => true
+				 ]
+			);
 
+			$userCreated->providers()->updateOrCreate(
+				[
+					'provider' => $provider,
+					'id_provider' => $userProvider->getId()
+				],
+				[
+					'avatar' => $userProvider->getAvatar()
+				]
+			);
 
-		 $userCreated = User::firstOrCreate(
-			 [
-				 'email' => $userProvider->email
-			 ],
-			 [
-				 //'email_verified_at' => now(),
-				 'name' => $userProvider->user['given_name'],
-				 'lastname' => $userProvider->user['family_name'],
-				 'status' => true
-			 ]
-		);
-
-		$userCreated->providers()->updateOrCreate(
-			[
-				'provider' => $provider,
-				'id_provider' => $userProvider->getId()
-			],
-			[
-				'avatar' => $userProvider->getAvatar()
-			]
-		);
-
-		$token = $userCreated->createToken('token-auth_token')->plainTextToken;
-		return response()->json([
-			"message" => "Usuario logueado",
-			"user" =>  $userCreated,
-			"image" =>  $userProvider->getAvatar(),
-
- 			"access_token" => $token
-		]);
+			$token = $userCreated->createToken('token-auth_token')->plainTextToken;
+			return response()->json([
+				"message" => "Usuario logueado",
+				"user" =>  $userCreated,
+				"image" =>  $userProvider->getAvatar(),
+				"role" => $userCreated->roles[0]->name,
+	 			"access_token" => $token
+			]);
+		 }
+		 else{
+			 return response()->json([
+                 "status" => 0,
+                 "message" => "Usuario no registrado en el sistema",
+             ], 404);
+		 }
 
 	}
 
