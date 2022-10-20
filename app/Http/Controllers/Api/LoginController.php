@@ -38,7 +38,7 @@ class LoginController extends Controller
 			return response()->json(['error' => 'Credenciales de google invalidas.'], 422);
 		}
 
-		$user = User::where('email', $userProvider->getEmail())->first();
+		$user = $user = User::where("email", "=", $userProvider->email)->first();
 
 		if (isset($user)) {
 			$userCreated = User::firstOrCreate(
