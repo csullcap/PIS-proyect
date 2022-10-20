@@ -15,38 +15,63 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+		//roles
+		\App\Models\role::factory()->create([
+            "name"=>"Admin"
+         ]);
+		 \App\Models\role::factory()->create([
+             "name"=>"User"
+          ]);
 
         //Usuarios
-        \App\Models\User::factory()->create([
-            "name"=>"Alexis",
-            "lastname"=>"Arroyo",
-            "email"=>"aarroyoh@unsa.edu.pe",
-            "password"=>Hash::make("luisangel"),
+		\App\Models\User::factory()->create([
+            "name"=>"Omar",
+            "lastname"=>"Apoyo",
+            "email"=>"admin@unsa.edu.pe",
+            "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(1)->roles()->attach(1);
+
+		 \App\Models\User::factory()->create([
+             "name"=>"Alexis",
+             "lastname"=>"Arroyo",
+             "email"=>"aarroyoh@unsa.edu.pe",
+             "password"=>Hash::make("luisangel"),
+          ]);
+		  \App\Models\User::find(2)->roles()->attach(1);
+
          \App\Models\User::factory()->create([
             "name"=>"Fernando",
             "lastname"=>"Araoz",
             "email"=>"faraoz@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(3)->roles()->attach(1);
+
          \App\Models\User::factory()->create([
             "name"=>"Jhonatan",
             "lastname"=>"Acuña",
             "email"=>"jacuna@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(4)->roles()->attach(1);
+
          \App\Models\User::factory()->create([
             "name"=>"Carlos",
             "lastname"=>"Gonzales",
             "email"=>"cgonzalesmo@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(5)->roles()->attach(1);
+
+
          \App\Models\User::factory()->create([
             "name"=>"Christian",
             "lastname"=>"Sullca",
             "email"=>"csullcap@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(6)->roles()->attach(1);
 
          \App\Models\User::factory()->create([
             "name"=>"Brayan",
@@ -54,6 +79,7 @@ class DatabaseSeeder extends Seeder
             "email"=>"bguillenn@unsa.edu.pe",
             "password"=>Hash::make("123456"),
          ]);
+		 \App\Models\User::find(7)->roles()->attach(1);
 
          //Estandares
 
@@ -162,5 +188,6 @@ class DatabaseSeeder extends Seeder
          ;\App\Models\EstadosValores::factory()->create([
             "valor"=>"Concluido",
          ]);
+
     }
 }

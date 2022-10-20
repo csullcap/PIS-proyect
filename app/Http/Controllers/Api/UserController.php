@@ -5,28 +5,36 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Estandar;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function register(Request $request){
-        $request->validate([
-            'name'=>'required',
-            'lastname'=>'required',
-            'email'=>'required|email|unique:users',
-            'password'=>'required|confirmed'
+		$request->validate([
+            'email'=>'required|email|unique:users'
         ]);
+		$userAuth = auth()->user()->roles[0]->name;
+		if($userAuth==="Admin"){
+			$user = new User();
+	        $user->name = "null";
+	        $user->lastname = "null";
+	        $user->email = $request->email;
+	        $user->password = "null";
+	        $user->save();
+			$user->roles()->attach(2);
+			return response()->json([
+	            'message'=>'Correo registrado exitosamente',
+				'userAuth'=>$user,
+	        ]);
+		}
+		else{
+			return response()->json([
+                "status" => 0,
+                "message" => "Correo no registrado",
+            ], 404);
+		}
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->lastname = $request->lastname;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return response()->json([
-            'message'=>'registro exitoso'
-        ]);
     }
 
     public function login(Request $request){

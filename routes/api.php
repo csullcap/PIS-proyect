@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\EvidenciasController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\NarrativasController;
 
-Route::post('register', [UserController::class, 'register']);
+
 Route::post('login', [UserController::class, 'login'])->name('login');
 
 Route::get('login/{provider}', [LoginController::class, 'redirectToProvider']);
@@ -42,6 +42,7 @@ Route::middleware("auth:sanctum")->group (function(){
     //rutas auth
     Route::get('user-profile', [UserController::class,'userProfile']);
     Route::get('logout', [UserController::class, 'logout']);
+	Route::post('register', [UserController::class, 'register']);
 
     //rutas estandar
     Route::post('estandar', [EstandarController::class,'createEstandar']);
