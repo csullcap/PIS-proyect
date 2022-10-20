@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;;
+
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class LoginController extends Controller{
 
-	public function redirectToProvider($provider) {
+class LoginController extends Controller
+{
+
+	public function redirectToProvider($provider)
+	{
 		$validated = $this->validateProvider($provider);
-		if (!is_null ($validated)) {
+		if (!is_null($validated)) {
 			return $validated;
 		}
-		return Socialite::driver($provider)->stateless()->redirect();
+		return Socialite::driver($provider)->redirect();
 		//return Socialite::driver($provider)->redirect();
 	}
 
@@ -24,29 +29,33 @@ class LoginController extends Controller{
 	//error_log('Some message here.');
 
 
-	public function handleProviderCallback($provider){
+	public function handleProviderCallback($provider)
+	{
 
-		 $validated = $this->validateProvider($provider);
-		 if (!is_null($validated)) {return $validated;}
+		$validated = $this->validateProvider($provider);
+		if (!is_null($validated)) {
+			return $validated;
+		}
 
-		 try {
-			 $userProvider = Socialite::driver($provider) ->stateless()->user();
-		 }
-		 catch (ClientException $exception) {
-			 return response()->json(['error' => 'Credenciales de google invalidas.'],422);
-		 }
+		try {
+			$userProvider = Socialite::driver($provider)->user();
+		} catch (ClientException $exception) {
+			return response()->json(['error' => 'Credenciales de google invalidas.'], 422);
+		}
 
-		 if(isset(User::where("email","=", $userProvider->email)->first()){
-			 $userCreated = User::firstOrCreate(
-				 [
-					 'email' => $userProvider->email
-				 ],
-				 [
-					 //'email_verified_at' => now(),
-					 'name' => $userProvider->user['given_name'],
-					 'lastname' => $userProvider->user['family_name'],
-					 'status' => true
-				 ]
+		$user = User::where('email', $userProvider->getEmail())->first();
+
+		if (isset($user)) {
+			$userCreated = User::firstOrCreate(
+				[
+					'email' => $userProvider->email
+				],
+				[
+					//'email_verified_at' => now(),
+					'name' => $userProvider->user['given_name'],
+					'lastname' => $userProvider->user['family_name'],
+					'status' => true
+				]
 			);
 
 			$userCreated->providers()->updateOrCreate(
@@ -65,24 +74,23 @@ class LoginController extends Controller{
 				"user" =>  $userCreated,
 				"image" =>  $userProvider->getAvatar(),
 				"role" => $userCreated->roles[0]->name,
-	 			"access_token" => $token
+				"access_token" => $token
 			]);
-		 }
-		 else{
-			 return response()->json([
-                 "status" => 0,
-                 "message" => "Usuario no registrado en el sistema",
-             ], 404);
-		 }
-
+		} else {
+			return response()->json([
+				"status" => 0,
+				"message" => "Usuario no registrado en el sistema",
+			], 404);
+		}
 	}
 
 
-	protected function validateProvider($provider){
+	protected function validateProvider($provider)
+	{
 		//En caso se quiera iniciar sesion con facebook o github
 		//if (!in_array($provider, ['facebook', 'github', 'google'])){
 		//por el momento solo con google
-		if (!in_array($provider, ['google'])){
+		if (!in_array($provider, ['google'])) {
 			return response()->json(['error' => 'Por favor usar google para loguearse'], 422);
 		}
 	}
