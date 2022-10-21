@@ -16,14 +16,14 @@ use App\Models\ProblemasOportunidades;
 use App\Models\Recursos;
 use App\Models\Responsables;
 
-
+//plan::where(["id_user" => $id_user, "id" => $id])->exists()
 class PlanController extends Controller
 {
     public function update(Request $request, $id)
     {
 
-        $id_user = auth()->user()->id;
-        if (plan::where(["id_user" => $id_user, "id" => $id])->exists()) {
+        $id_user = auth()->user();
+        if ($id_user->isCreadorPlan($id) or $id_user->isAdmin()) {
             //Actualizamos los atributos propios
             $plan = plan::find($id);
             $plan->update([
@@ -315,7 +315,6 @@ class PlanController extends Controller
             $responsable_aux->save();
         }
 
-
         return response([
             "status" => 1,
             "message" => "!Plan de mejora creado exitosamente",
@@ -323,10 +322,10 @@ class PlanController extends Controller
     }
 
 
+    //confirmar los datos nesesarios
     public function listPlan()
     {
         $id_user = auth()->user()->id;
-
         $planAll = plan::select('plans.id', 'plans.nombre', 'plans.codigo', 'plans.avance', 'plans.estado', 'plans.id_user', 'estandars.name as estandar_name', 'users.name as user_name')
             ->join('estandars', 'plans.id_estandar', '=', 'estandars.id')
             ->join('users', 'plans.id_user', '=', 'users.id')
@@ -337,7 +336,6 @@ class PlanController extends Controller
             $plan->esCreador = ($plan->id_user == $id_user) ? true : false;
             unset($plan->id_user);
         }
-
         return response([
             "status" => 1,
             "message" => "!Lista de planes de mejora",
@@ -358,8 +356,8 @@ class PlanController extends Controller
             "avance" => "required|integer",
         ]);
         $id = $request->id;
-        $id_user = auth()->user()->id;
-        if (plan::where(["id_user" => $id_user, "id" => $id])->exists()) {
+        $id_user = auth()->user();
+        if ($id_user->isCreadorPlan($id) or $id_user->isAdmin()) {
             $plan = plan::find($id);
             $plan->nombre = $request->nombre;
             $plan->oportunidad_plan = $request->oportunidad_plan;
@@ -385,8 +383,8 @@ class PlanController extends Controller
 
     public function deletePlan($id)
     {
-        $id_user = auth()->user()->id;
-        if (plan::where(["id" => $id, "id_user" => $id_user])->exists()) {
+        $id_user = auth()->user();
+        if ($id_user->isCreadorPlan($id) or $id_user->isAdmin()) {
             $plan = plan::where(["id" => $id, "id_user" => $id_user])->first();
             $plan->delete();
             return response([

@@ -74,7 +74,7 @@ class UserController extends Controller
         return response()->json([
             "status" => 0,
             "message" => "Perfil de usuario",
-            "data" => auth()->user()
+            "data" => auth()->user(),
         ]);
     }
 
