@@ -41,7 +41,7 @@ class LoginController extends Controller
 		$user = $user = User::where("email", "=", $userProvider->email)->first();
 
 		if (isset($user)) {
-			$userCreated = User::firstOrCreate(
+			$userCreated = User::updateOrCreate(
 				[
 					'email' => $userProvider->email
 				],
