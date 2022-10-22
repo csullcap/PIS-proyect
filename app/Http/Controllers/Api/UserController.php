@@ -24,6 +24,7 @@ class UserController extends Controller
             $user->lastname = "null";
             $user->email = $request->email;
             $user->password = "null";
+			$user->estado = true;
             $user->save();
             $user->roles()->attach($request->rol);
             return response()->json([
