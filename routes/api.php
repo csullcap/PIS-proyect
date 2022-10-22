@@ -58,6 +58,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::delete('plan/{id}', [PlanController::class, 'deletePlan']);
     Route::put('plan/{id}', [PlanController::class, 'update']);
     Route::get('plans/user', [PlanController::class, 'listPlanUser']);
+    Route::post('plan/asignar', [PlanController::class, 'assignPlan']);
     //Route::put('plan',[PlanController::class,'updatePlan']);
 
     //rutas metas

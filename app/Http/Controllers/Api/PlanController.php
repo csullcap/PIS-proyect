@@ -321,6 +321,36 @@ class PlanController extends Controller
         ]);
     }
 
+    public function assignPlan(Request $request)
+    {
+        $id_user = auth()->user();
+        if ($id_user->isAdmin()) {
+            $request->validate([
+                'id_estandar' => 'required|integer|exists:estandars,id',
+                'id_user' => 'required|integer|exists:users,id',
+                'codigo' => [
+                    'required',
+                    Rule::unique('plans', 'codigo')->where(function ($query) use ($request) {
+                        return $query->where('id_estandar', $request->id_estandar);
+                    }),
+                ],
+            ]);
+            $plan = new plan();
+            $plan->id_user = $request->id_user;
+            $plan->id_estandar = $request->id_estandar;
+            $plan->codigo = $request->codigo;
+            $plan->save();
+            return response([
+                "status" => 1,
+                "message" => "!Plan de mejora asignado exitosamente",
+            ], 200);
+        } else {
+            return response([
+                "status" => 0,
+                "message" => "No tiene permisos para realizar esta acción",
+            ], 403);
+        }
+    }
 
     //confirmar los datos nesesarios
     public function listPlan()
