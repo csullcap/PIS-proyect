@@ -14,17 +14,18 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:users'
+            'email' => 'required|email|unique:users',
+			'rol'=> 'required|numeric|size:2'
         ]);
         $userAuth = auth()->user()->roles[0]->name;
-        if ($userAuth === "Admin") {
+        if ($userAuth == "Admin") {
             $user = new User();
             $user->name = "null";
             $user->lastname = "null";
             $user->email = $request->email;
             $user->password = "null";
             $user->save();
-            $user->roles()->attach(2);
+            $user->roles()->attach($request->rol);
             return response()->json([
                 'message' => 'Correo registrado exitosamente',
                 'userAuth' => $user,
@@ -32,7 +33,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 "status" => 0,
-                "message" => "Correo no registrado",
+                "message" => "No eres administrador: Correo no registrado",
             ], 404);
         }
     }
