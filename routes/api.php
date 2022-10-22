@@ -41,6 +41,7 @@ Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 Route::middleware("auth:sanctum")->group(function () {
     //rutas auth
     Route::get('user-profile', [UserController::class, 'userProfile']);
+	Route::get('user', [UserController::class, 'listUser']);
     Route::get('logout', [UserController::class, 'logout']);
     Route::post('register', [UserController::class, 'register']);
 
@@ -116,6 +117,6 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('narrativa', [NarrativasController::class, 'listNarrativas']);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/

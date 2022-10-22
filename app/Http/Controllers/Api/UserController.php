@@ -80,6 +80,15 @@ class UserController extends Controller
         ]);
     }
 
+	public function listUser(){
+		$users = User::all();
+        return response([
+            "status" => 1,
+            "msg" => "!Lista de usuarios",
+            "data" => $users,
+        ]);
+    }
+
     public function logout()
     {
         auth()->user()->tokens()->delete();
