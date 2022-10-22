@@ -432,6 +432,7 @@ class PlanController extends Controller
     //faltas completar
     public function showPlan($id)
     {
+
         if (plan::where("id", $id)->exists()) {
             $plan = plan::find($id);
             $plan->fuentes = Fuentes::where("id_plan", $id)->get(['id', 'descripcion as value']);

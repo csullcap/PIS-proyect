@@ -47,16 +47,16 @@ Route::middleware("auth:sanctum")->group(function () {
     //rutas estandar
     Route::post('estandar', [EstandarController::class, 'createEstandar']);
     Route::get('estandar', [EstandarController::class, 'listEstandar']);
-    Route::get('estandar/{id}', [EstandarController::class, 'showEstandar']);
-    Route::put('estandar/{id}',  [EstandarController::class, 'updateEstandar']);
-    Route::delete('estandar/{id}', [EstandarController::class, 'deleteEstandar']);
+    Route::get('estandar/{id}', [EstandarController::class, 'showEstandar'])->where('id', '[0-9]+');
+    Route::put('estandar/{id}',  [EstandarController::class, 'updateEstandar'])->where('id', '[0-9]+');
+    Route::delete('estandar/{id}', [EstandarController::class, 'deleteEstandar'])->where('id', '[0-9]+');
 
     //rutas plan
     Route::post('plan', [PlanController::class, 'createPlan']);
     Route::get('plan', [PlanController::class, 'listPlan']);
-    Route::get('plan/{id}', [PlanController::class, 'showPlan']);
-    Route::delete('plan/{id}', [PlanController::class, 'deletePlan']);
-    Route::put('plan/{id}', [PlanController::class, 'update']);
+    Route::get('plan/{id}', [PlanController::class, 'showPlan'])->where('id', '[0-9]+');
+    Route::delete('plan/{id}', [PlanController::class, 'deletePlan'])->where('id', '[0-9]+');
+    Route::put('plan/{id}', [PlanController::class, 'update'])->where('id', '[0-9]+');
     Route::get('plans/user', [PlanController::class, 'listPlanUser']);
     Route::post('plan/asignar', [PlanController::class, 'assignPlan']);
     //Route::put('plan',[PlanController::class,'updatePlan']);
@@ -64,55 +64,55 @@ Route::middleware("auth:sanctum")->group(function () {
     //rutas metas
     Route::post('meta', [MetasController::class, 'create']);
     Route::put('meta', [MetasController::class, 'update']);
-    Route::delete('meta/{id}', [MetasController::class, 'delete']);
+    Route::delete('meta/{id}', [MetasController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas accionesmejoras
     Route::post('accionmejora', [AccionesMejorasController::class, 'create']);
     Route::put('accionmejora', [AccionesMejorasController::class, 'update']);
-    Route::delete('accionmejora/{id}', [AccionesMejorasController::class, 'delete']);
+    Route::delete('accionmejora/{id}', [AccionesMejorasController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas fuentes
     Route::post('fuente', [FuentesController::class, 'create']);
     Route::put('fuente', [FuentesController::class, 'update']);
-    Route::delete('fuente/{id}', [FuentesController::class, 'delete']);
+    Route::delete('fuente/{id}', [FuentesController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas observaciones
     Route::post('observacion', [ObservacionesController::class, 'create']);
     Route::put('observacion', [ObservacionesController::class, 'update']);
-    Route::delete('observacion/{id}', [ObservacionesController::class, 'delete']);
+    Route::delete('observacion/{id}', [ObservacionesController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas problemas
     Route::post('problema', [ProblemasOportunidadesController::class, 'create']);
     Route::put('problema', [ProblemasOportunidadesController::class, 'update']);
-    Route::delete('problema/{id}', [ProblemasOportunidadesController::class, 'delete']);
+    Route::delete('problema/{id}', [ProblemasOportunidadesController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas recursos
     Route::post('recurso', [RecursosController::class, 'create']);
     Route::put('recurso', [RecursosController::class, 'update']);
-    Route::delete('recurso/{id}', [RecursosController::class, 'delete']);
+    Route::delete('recurso/{id}', [RecursosController::class, 'delete'])->where('id', '[0-9]+');
 
     //rutas casuasraiz
     Route::post('causa', [CausasRaicesController::class, 'create']);
     Route::put('causa', [CausasRaicesController::class, 'update']);
-    Route::delete('causa/{id}', [CausasRaicesController::class, 'delete']);
+    Route::delete('causa/{id}', [CausasRaicesController::class, 'delete'])->where('id', '[0-9]+');
 
     //ruta responsables
     Route::post('responsable', [ResponsablesController::class, 'create']);
     Route::put('responsable', [ResponsablesController::class, 'update']);
-    Route::delete('responsable/{id}', [ResponsablesController::class, 'delete']);
+    Route::delete('responsable/{id}', [ResponsablesController::class, 'delete'])->where('id', '[0-9]+');
 
     //ruta evidencias
     Route::post('evidencia', [EvidenciasController::class, 'create']);
-    Route::get('evidencia/download/{id}', [EvidenciasController::class, 'download']);
-    Route::get('evidencia/{id}', [EvidenciasController::class, 'show']);
+    Route::get('evidencia/download/{id}', [EvidenciasController::class, 'download'])->where('id', '[0-9]+');
+    Route::get('evidencia/{id}', [EvidenciasController::class, 'show'])->where('id', '[0-9]+');
     Route::put('evidencia', [EvidenciasController::class, 'update']);
-    Route::delete('evidencia/{id}', [EvidenciasController::class, 'delete']);
+    Route::delete('evidencia/{id}', [EvidenciasController::class, 'delete'])->where('id', '[0-9]+');
 
     //ruta narrativas
     Route::post('narrativa', [NarrativasController::class, 'create']);
-    Route::get('narrativa/{id}', [NarrativasController::class, 'show']);
+    Route::get('narrativa/{id}', [NarrativasController::class, 'show'])->where('id', '[0-9]+');
     Route::put('narrativa', [NarrativasController::class, 'update']);
-    Route::delete('narrativa/{id}', [NarrativasController::class, 'delete']);
+    Route::delete('narrativa/{id}', [NarrativasController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('narrativa', [NarrativasController::class, 'listNarrativas']);
 });
 
