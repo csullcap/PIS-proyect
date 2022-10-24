@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users',
-			'rol'=> 'required|numeric|size:2'
+			'rol'=> 'required|numeric|min:1|max:2'
         ]);
         $userAuth = auth()->user()->roles[0]->name;
         if ($userAuth == "Admin") {
