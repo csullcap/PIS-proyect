@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 		//roles
-		\App\Models\role::factory()->create([
+		\App\Models\Role::factory()->create([
             "name"=>"Admin"
          ]);
-		 \App\Models\role::factory()->create([
+		 \App\Models\Role::factory()->create([
              "name"=>"User"
           ]);
 
@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Apoyo",
             "email"=>"admin@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(1)->roles()->attach(1);
 
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
              "lastname"=>"Arroyo",
              "email"=>"aarroyoh@unsa.edu.pe",
              "password"=>Hash::make("luisangel"),
+			 "estado"=>true,
           ]);
 		  \App\Models\User::find(2)->roles()->attach(1);
 
@@ -45,6 +47,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Araoz",
             "email"=>"faraoz@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(3)->roles()->attach(1);
 
@@ -53,6 +56,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Acuña",
             "email"=>"jacuna@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(4)->roles()->attach(1);
 
@@ -61,6 +65,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Gonzales",
             "email"=>"cgonzalesmo@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(5)->roles()->attach(1);
 
@@ -70,6 +75,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Sullca",
             "email"=>"csullcap@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(6)->roles()->attach(1);
 
@@ -78,6 +84,7 @@ class DatabaseSeeder extends Seeder
             "lastname"=>"Guillen",
             "email"=>"bguillenn@unsa.edu.pe",
             "password"=>Hash::make("123456"),
+			"estado"=>true,
          ]);
 		 \App\Models\User::find(7)->roles()->attach(1);
 
