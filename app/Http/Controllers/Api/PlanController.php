@@ -15,6 +15,8 @@ use App\Models\Observaciones;
 use App\Models\ProblemasOportunidades;
 use App\Models\Recursos;
 use App\Models\Responsables;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 //plan::where(["id_user" => $id_user, "id" => $id])->exists()
 class PlanController extends Controller
@@ -339,6 +341,8 @@ class PlanController extends Controller
             $plan->id_user = $request->id_user;
             $plan->id_estandar = $request->id_estandar;
             $plan->codigo = $request->codigo;
+            $plan->avance = 0;
+            $plan->estado = "Programado";
             $plan->save();
             return response([
                 "status" => 1,
@@ -479,5 +483,29 @@ class PlanController extends Controller
                 "data" => [],
             ], 404);
         }
+    }
+
+    public function pdfPlan($id)
+    {
+        /* $id_user = auth()->user()->id;
+        if (plan::where("id", $id)->exists()) {
+            $plan = plan::find($id);
+            $plan->fuentes = Fuentes::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->problemas_oportunidades = ProblemasOportunidades::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->causas_raices = CausasRaices::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->acciones_mejoras = AccionesMejoras::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->recursos = Recursos::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->metas = Metas::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->observaciones = Observaciones::where("id_plan", $id)->get(['id', 'descripcion as value']);
+            $plan->responsables = Responsables::where("id_plan", $id)->get(['id', 'nombre as value']);
+            $plan->evidencias = Evidencias::where("id_plan", $id)->get();
+            $pdf = PDF::loadView('planPDF', compact('plan'));
+            return $pdf->download('plan.pdf');
+        } else {
+            return response([
+                "status" => 0,
+                "message" => "!No se encontro el plan de mejora",
+            ], 404);
+        } */
     }
 }

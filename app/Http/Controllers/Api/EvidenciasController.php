@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use App\Models\Evidencias;
 use App\Models\plan;
@@ -14,150 +15,145 @@ use Illuminate\Http\Request;
 
 class EvidenciasController extends Controller
 {
-	public function create(Request $request){
+    public function create(Request $request)
+    {
         $request->validate([
-			"id_plan"=> "required|integer",
-            "codigo"=>"required",
-			"denominacion"=>"required",
-			"adjunto"=>"required",
+            "id_plan" => "required|integer",
+            "codigo" => "required",
+            "denominacion" => "required",
+            "adjunto" => "required",
         ]);
-		$id_user = auth()->user()->id;
-        if(plan::where(["id"=>$request->id_plan])->exists()){
+        $id_user = auth()->user();
+        if ($id_user->isCreadorPlan($request->id_plan) or $id_user->isAdmin()) {
             $plan = plan::find($request->id_plan);
-            if($plan->id_user == $id_user){
+            if ($plan->id_user == $id_user) {
                 $evidencia = new Evidencias();
                 $evidencia->id_plan = $request->id_plan;
                 $evidencia->codigo = $plan->codigo;
-				$evidencia->denominacion = $request->denominacion;
-				error_log($request->denominacion);
-				$path = $request->adjunto->store('evidencias');
-				$evidencia->adjunto = $path;
-				$evidencia->id_user = $id_user;
+                $evidencia->denominacion = $request->denominacion;
+                error_log($request->denominacion);
+                $path = $request->adjunto->store('evidencias');
+                $evidencia->adjunto = $path;
+                $evidencia->id_user = $id_user;
                 $evidencia->save();
                 return response([
                     "status" => 1,
                     "message" => "Evidencia creada exitosamente",
-					"evidencia" => $evidencia
+                    "evidencia" => $evidencia
                 ]);
-            }
-            else{
+            } else {
                 return response([
                     "status" => 0,
                     "message" => "No tienes permisos para crear esta Evidencia",
-                ],404);
+                ], 404);
             }
-        }
-        else{
+        } else {
             return response([
                 "status" => 0,
                 "message" => "No se encontro el plan",
-            ],404);
+            ], 404);
         }
     }
 
-	public function show($id){
-        if(Evidencias::where("id",$id)->exists()){
+    public function show($id)
+    {
+        if (Evidencias::where("id", $id)->exists()) {
             $evidencia = Evidencias::find($id);
-			//Para retornar nombre de user
-			/*$user = User::find($evidencia->id_user);
+            //Para retornar nombre de user
+            /*$user = User::find($evidencia->id_user);
 			$evidencia->id_user = $user->name;*/
             return response([
                 "status" => 1,
                 "msg" => "!Evidencia",
                 "data" => $evidencia,
             ]);
+        } else {
+            return response([
+                "status" => 0,
+                "msg" => "!No se encontro el evidencia",
+            ], 404);
         }
-        else{
-          return response([
-              "status" => 0,
-              "msg" => "!No se encontro el evidencia",
-          ],404);
-        }
-
     }
 
 
 
 
 
-	public function update(Request $request){
+    public function update(Request $request)
+    {
         $request->validate([
-            "id"=> "required|integer",
-            "codigo"=> "required",
-            "denominacion"=> "required",
-			"adjunto"=> "required"
+            "id" => "required|integer",
+            "codigo" => "required",
+            "denominacion" => "required",
+            "adjunto" => "required"
         ]);
-        $id_user = auth()->user()->id;
-        if(Evidencias::where(["id"=>$request->id])->exists()){
+        $id_user = auth()->user();
+        if (Evidencias::where(["id" => $request->id])->exists()) {
             $evidencia = Evidencias::find($request->id);
             $plan = plan::find($evidencia->id_plan);
-            if($plan->id_user == $id_user){
+            if ($plan->id_user == $id_user->id or $id_user->isAdmin()) {
                 $evidencia->codigo = $request->codigo;
-				$evidencia->denominacion = $request->denominacion;
-				$path = $request->adjunto->store('evidencias');
-				$evidencia->adjunto = $path;
+                $evidencia->denominacion = $request->denominacion;
+                $path = $request->adjunto->store('evidencias');
+                $evidencia->adjunto = $path;
                 $evidencia->save();
 
                 return response([
                     "status" => 1,
                     "message" => "Evidencia actualizada exitosamente",
                 ]);
-            }
-            else{
+            } else {
                 return response([
                     "status" => 0,
                     "message" => "No tienes permisos para actualizar esta evidencia",
-                ],404);
+                ], 404);
             }
-        }
-        else{
+        } else {
             return response([
                 "status" => 0,
                 "message" => "No se encontro la evidencia",
-            ],404);
+            ], 404);
         }
     }
 
     public function delete($id)
     {
-        $id_user = auth()->user()->id;
-        if(Evidencias::where(["id"=>$id])->exists()){
+        $id_user = auth()->user();
+        if (Evidencias::where(["id" => $id])->exists()) {
             $evidencia = Evidencias::find($id);
             $plan = plan::find($evidencia->id_plan);
-            if($plan->id_user == $id_user){
+            if ($plan->id_user == $id_user->id or $id_user->isAdmin()) {
                 $evidencia->delete();
                 return response([
                     "status" => 1,
                     "message" => "Evidencia eliminada exitosamente",
                 ]);
-            }
-            else{
+            } else {
                 return response([
                     "status" => 0,
                     "message" => "No tienes permisos para eliminar esta evidencia",
-                ],404);
+                ], 404);
             }
-        }
-        else{
+        } else {
             return response([
                 "status" => 0,
                 "message" => "No se encontro la evidencia",
-            ],404);
+            ], 404);
         }
     }
 
-	public function download($id){
-        if(Evidencias::where("id",$id)->exists()){
+    public function download($id)
+    {
+        if (Evidencias::where("id", $id)->exists()) {
             $evidencia = Evidencias::find($id);
-			$path = storage_path('app/'.$evidencia->adjunto);
-			//$evidencia->adjunto = download($path);
+            $path = storage_path('app/' . $evidencia->adjunto);
+            //$evidencia->adjunto = download($path);
             return response()->download($path);
-        }
-        else{
-          return response([
-              "status" => 0,
-              "msg" => "!No se encontro la evidencia",
-          ],404);
+        } else {
+            return response([
+                "status" => 0,
+                "msg" => "!No se encontro la evidencia",
+            ], 404);
         }
     }
 }
