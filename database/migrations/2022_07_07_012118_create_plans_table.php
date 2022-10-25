@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('nombre', 255)->nullable();
             $table->string('oportunidad_plan')->nullable();
             $table->string('semestre_ejecucion', 8)->nullable();
-            $table->integer('avance')->nullable();
-            $table->integer('duracion');
-            $table->string('estado', 30)->nullable();
-            $table->boolean('evaluacion_eficacia');
+            $table->integer('avance');
+            $table->integer('duracion')->nullable();
+            $table->string('estado', 30);
+            $table->boolean('evaluacion_eficacia')->nullable();;
             $table->foreignId('id_estandar')
                 ->constrained('estandars');
             $table->foreignId('id_user')
