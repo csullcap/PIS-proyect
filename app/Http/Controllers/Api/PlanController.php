@@ -343,6 +343,7 @@ class PlanController extends Controller
             $plan->codigo = $request->codigo;
             $plan->avance = 0;
             $plan->estado = "Programado";
+            $plan->nombre = "";
             $plan->save();
             return response([
                 "status" => 1,
