@@ -26,7 +26,7 @@ class EvidenciasController extends Controller
         $id_user = auth()->user();
         if ($id_user->isCreadorPlan($request->id_plan) or $id_user->isAdmin()) {
             $plan = plan::find($request->id_plan);
-            if ($plan->id_user == $id_user) {
+            if ($plan->id_user == $id_user->id_plan) {
                 $evidencia = new Evidencias();
                 $evidencia->id_plan = $request->id_plan;
                 $evidencia->codigo = $plan->codigo;
@@ -34,7 +34,7 @@ class EvidenciasController extends Controller
                 error_log($request->denominacion);
                 $path = $request->adjunto->store('evidencias');
                 $evidencia->adjunto = $path;
-                $evidencia->id_user = $id_user;
+                $evidencia->id_user = $id_user->id_plan;
                 $evidencia->save();
                 return response([
                     "status" => 1,
