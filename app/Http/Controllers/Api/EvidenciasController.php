@@ -91,7 +91,7 @@ class EvidenciasController extends Controller
         if (Evidencias::where(["id" => $request->id])->exists()) {
             $evidencia = Evidencias::find($request->id);
             $plan = plan::find($evidencia->id_plan);
-            if ($plan->id_user == $id_user->id or $id_user->isAdmin()) {
+            if ($id_user->isCreadorPlan($plan->id) or $id_user->isAdmin()) {
                 $evidencia->codigo = $request->codigo;
                 $evidencia->denominacion = $request->denominacion;
                 $path = $request->adjunto->store('evidencias');
@@ -122,7 +122,7 @@ class EvidenciasController extends Controller
         if (Evidencias::where(["id" => $id])->exists()) {
             $evidencia = Evidencias::find($id);
             $plan = plan::find($evidencia->id_plan);
-            if ($plan->id_user == $id_user->id or $id_user->isAdmin()) {
+            if ($id_user->isCreadorPlan($plan->id) or $id_user->isAdmin()) {
                 $evidencia->delete();
                 return response([
                     "status" => 1,
