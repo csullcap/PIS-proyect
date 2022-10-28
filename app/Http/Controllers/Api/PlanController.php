@@ -420,7 +420,7 @@ class PlanController extends Controller
     {
         $id_user = auth()->user();
         if ($id_user->isCreadorPlan($id) or $id_user->isAdmin()) {
-            $plan = plan::where(["id" => $id, "id_user" => $id_user])->first();
+            $plan = plan::where(["id" => $id, "id_user" => $id_user->id])->first();
             $plan->delete();
             return response([
                 "status" => 1,
@@ -486,9 +486,9 @@ class PlanController extends Controller
         }
     }
 
-    public function pdfPlan($id)
+    /*  public function pdfPlan($id)
     {
-        /* $id_user = auth()->user()->id;
+        $id_user = auth()->user()->id;
         if (plan::where("id", $id)->exists()) {
             $plan = plan::find($id);
             $plan->fuentes = Fuentes::where("id_plan", $id)->get(['id', 'descripcion as value']);
@@ -501,12 +501,13 @@ class PlanController extends Controller
             $plan->responsables = Responsables::where("id_plan", $id)->get(['id', 'nombre as value']);
             $plan->evidencias = Evidencias::where("id_plan", $id)->get();
             $pdf = PDF::loadView('planPDF', compact('plan'));
-            return $pdf->download('plan.pdf');
+            $pdf->setPaper('A4', 'landscape');
+            return $pdf->stream('plan.pdf');
         } else {
             return response([
                 "status" => 0,
                 "message" => "!No se encontro el plan de mejora",
             ], 404);
-        } */
-    }
+        }
+    } */
 }

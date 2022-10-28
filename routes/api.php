@@ -36,7 +36,11 @@ Route::get('estados', [EstadosValoresController::class, 'listEstadosValores']);
 //Estandares  valores
 Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 
+
+//CAMBIAR ESTO
 Route::get('user', [UserController::class, 'listUser']);
+
+/* Route::get('plan/pdf/{id}', [PlanController::class, 'pdfPlan'])->where('id', '[0-9]+'); */
 
 Route::middleware("auth:sanctum")->group(function () {
     //rutas auth
@@ -61,6 +65,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('plans/user', [PlanController::class, 'listPlanUser']);
     Route::post('plan/asignar', [PlanController::class, 'assignPlan']);
     //Route::put('plan',[PlanController::class,'updatePlan']);
+
+
 
     //rutas metas
     Route::post('meta', [MetasController::class, 'create']);
