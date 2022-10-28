@@ -419,8 +419,15 @@ class PlanController extends Controller
     public function deletePlan($id)
     {
         $id_user = auth()->user();
+        $plan = plan::find($id);
+        if (!$plan) {
+            return response([
+                "status" => 0,
+                "message" => "!No se encontro el plan",
+            ], 404);
+        }
+
         if ($id_user->isCreadorPlan($id) or $id_user->isAdmin()) {
-            $plan = plan::where(["id" => $id, "id_user" => $id_user->id])->first();
             $plan->delete();
             return response([
                 "status" => 1,
@@ -429,7 +436,7 @@ class PlanController extends Controller
         } else {
             return response([
                 "status" => 0,
-                "message" => "!No se encontro el plan de mejora o no esta autorizado",
+                "message" => "!No esta autorizado par realizar esta accion",
             ], 404);
         }
     }
