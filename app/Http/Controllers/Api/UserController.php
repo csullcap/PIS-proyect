@@ -99,4 +99,27 @@ class UserController extends Controller
             "message" => "Sesion cerrada"
         ]);
     }
+	public function updateRoleEstado(Request $request){
+		$request->validate([
+			"id"=>"exists:users",
+            "role" => "present|nullable|numeric|min:1|max:2",
+            "estado" => "present|nullable|boolean"
+        ]);
+		if(auth()->user()->isAdmin()){
+			$user = User::find($request->id);
+			$user->update(['estado' =>$request->estado]);
+			$user->roles()->sync([$request->role]);
+			return response([
+	            "status" => 1,
+	            "msg" => "!Update user",
+	            "data" => $user,
+	        ]);
+		}
+		else{
+			return response()->json([
+				"status" => 0,
+				"message" => "No eres administrador",
+			], 404);
+		}
+	}
 }
