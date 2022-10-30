@@ -47,7 +47,7 @@ class UserController extends Controller
             "password" => "required"
         ]);
 
-        $user = User::where("email", "=", $request->email)->first();
+        $user = User::where("email", "=", $request->email)->where("estado",true)->first();
 
         if (isset($user->id)) {
             if (Hash::check($request->password, $user->password)) {
@@ -66,7 +66,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 "status" => 0,
-                "message" => "Usuario no registrado",
+                "message" => "Usuario no registrado o deshabilitado",
             ], 404);
         }
     }

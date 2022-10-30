@@ -38,7 +38,7 @@ class LoginController extends Controller
 			return response()->json(['error' => 'Credenciales de google invalidas.'], 422);
 		}
 
-		$user = $user = User::where("email", "=", $userProvider->email)->first();
+		$user = $user = User::where("email", "=", $userProvider->email)->where("estado",true)->first();
 
 		if (isset($user)) {
 			$userCreated = User::updateOrCreate(
@@ -74,7 +74,7 @@ class LoginController extends Controller
 		} else {
 			return response()->json([
 				"status" => 0,
-				"message" => "Usuario no registrado en el sistema",
+				"message" => "Usuario no registrado o deshabilitado",
 			], 404);
 		}
 	}
