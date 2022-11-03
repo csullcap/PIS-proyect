@@ -38,7 +38,8 @@ Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 
 
 //CAMBIAR ESTO
-Route::get('user', [UserController::class, 'listUser']);
+//Route::get('user', [UserController::class, 'listUser']);
+Route::get('user', [UserController::class, 'listUserHabilitados']);
 
 /* Route::get('plan/pdf/{id}', [PlanController::class, 'pdfPlan'])->where('id', '[0-9]+'); */
 

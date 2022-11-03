@@ -92,6 +92,18 @@ class UserController extends Controller
         ]);
     }
 
+	public function listUserHabilitados(){
+		$users = User::whereNotNull("name")->where("estado",true)->get();
+		foreach ($users as $user) {
+			$user->rol=User::find($user->id)->roles[0]->name;
+		}
+        return response([
+            "status" => 1,
+            "msg" => "!Lista de usuarios no nulos y habilitados",
+            "data" => $users,
+        ]);
+    }
+
     public function logout()
     {
         auth()->user()->tokens()->delete();
