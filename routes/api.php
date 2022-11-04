@@ -38,14 +38,15 @@ Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 
 
 //CAMBIAR ESTO
-Route::get('user', [UserController::class, 'listUser']);
+//Route::get('user', [UserController::class, 'listUser']);
+Route::get('user', [UserController::class, 'listUserHabilitados']);
 
 Route::get('plan/export/{id}', [PlanController::class, 'exportPlan'])->where('id', '[0-9]+');
 
 Route::middleware("auth:sanctum")->group(function () {
     //rutas auth
     Route::get('user-profile', [UserController::class, 'userProfile']);
-
+	Route::get('update', [UserController::class, 'updateRoleEstado']);
     Route::get('logout', [UserController::class, 'logout']);
     Route::post('register', [UserController::class, 'register']);
 
