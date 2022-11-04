@@ -40,7 +40,7 @@ Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 //CAMBIAR ESTO
 Route::get('user', [UserController::class, 'listUser']);
 
-/* Route::get('plan/pdf/{id}', [PlanController::class, 'pdfPlan'])->where('id', '[0-9]+'); */
+Route::get('plan/export/{id}', [PlanController::class, 'exportPlan'])->where('id', '[0-9]+');
 
 Route::middleware("auth:sanctum")->group(function () {
     //rutas auth
