@@ -535,6 +535,7 @@ class PlanController extends Controller
                 foreach ($plan->fuentes as $fuente) {
                     $content_fuentes .= "- " . $fuente->value . "</w:t><w:br/><w:t>";
                 }
+                $content_fuentes = rtrim($content_fuentes, "</w:t><w:br/><w:t>");
                 $template->setValue('fuentes', $content_fuentes);
 
                 //3
@@ -542,6 +543,7 @@ class PlanController extends Controller
                 foreach ($plan->problemas_oportunidades as $problema_oportunidad) {
                     $content_problemas_oportunidades .= "- " . $problema_oportunidad->value . "</w:t><w:br/><w:t>";
                 }
+                $content_problemas_oportunidades = rtrim($content_problemas_oportunidades, "</w:t><w:br/><w:t>");
                 $template->setValue('problema_oportunidad', $content_problemas_oportunidades);
 
                 //4
@@ -549,6 +551,7 @@ class PlanController extends Controller
                 foreach ($plan->causas_raices as $causa_raiz) {
                     $content_causas_raices .= "- " . $causa_raiz->value . "</w:t><w:br/><w:t>";
                 }
+                $content_causas_raices = rtrim($content_causas_raices, "</w:t><w:br/><w:t>");
                 $template->setValue('causa', $content_causas_raices);
 
                 //5
@@ -559,6 +562,7 @@ class PlanController extends Controller
                 foreach ($plan->acciones_mejoras as $accion_mejora) {
                     $content_acciones_mejoras .= "- " . $accion_mejora->value . "</w:t><w:br/><w:t>";
                 }
+                $content_acciones_mejoras = rtrim($content_acciones_mejoras, "</w:t><w:br/><w:t>");
                 $template->setValue('acciones', $content_acciones_mejoras);
 
                 //7
@@ -572,6 +576,7 @@ class PlanController extends Controller
                 foreach ($plan->recursos as $recurso) {
                     $content_recursos .= "- " . $recurso->value . "</w:t><w:br/><w:t>";
                 }
+                $content_recursos = rtrim($content_recursos, "</w:t><w:br/><w:t>");
                 $template->setValue('recursos', $content_recursos);
 
                 //10
@@ -579,6 +584,7 @@ class PlanController extends Controller
                 foreach ($plan->metas as $meta) {
                     $content_metas .= "- " . $meta->value . "</w:t><w:br/><w:t>";
                 }
+                $content_metas = rtrim($content_metas, "</w:t><w:br/><w:t>");
                 $template->setValue('metas', $content_metas);
 
                 //11
@@ -586,6 +592,7 @@ class PlanController extends Controller
                 foreach ($plan->responsables as $responsable) {
                     $content_responsables .= "- " . $responsable->value . "</w:t><w:br/><w:t>";
                 }
+                $content_responsables = rtrim($content_responsables, "</w:t><w:br/><w:t>");
                 $template->setValue('responsables', $content_responsables);
 
                 //12
@@ -593,6 +600,7 @@ class PlanController extends Controller
                 foreach ($plan->observaciones as $observacion) {
                     $content_observaciones .= "- " . $observacion->value . "</w:t><w:br/><w:t>";
                 }
+                $content_observaciones = rtrim($content_observaciones, "</w:t><w:br/><w:t>");
                 $template->setValue('observaciones', $content_observaciones);
 
                 //13
@@ -603,6 +611,7 @@ class PlanController extends Controller
                 foreach ($plan->evidencias as $evidencia) {
                     $content_evidencias .= "- " . $evidencia->codigo . "</w:t><w:br/><w:t>";
                 }
+                $content_evidencias = rtrim($content_evidencias, "</w:t><w:br/><w:t>");
                 $template->setValue('evidencias', $content_evidencias);
 
                 //15
@@ -629,7 +638,7 @@ class PlanController extends Controller
                     'Content-Type' => 'application/msword',
                     'Content-Disposition' => 'attachment;filename="plan.docx"',
                 ];
-                return response()->download($tempfiledocx, 'plan.docx', $headers)->deleteFileAfterSend(true);
+                return response()->download($tempfiledocx, $plan->codigo . '_plan.docx', $headers);
             } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
                 return response([
                     "status" => 0,
