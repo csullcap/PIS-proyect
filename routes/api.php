@@ -20,9 +20,8 @@ use App\Http\Controllers\Api\EvidenciasController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\NarrativasController;
 
-
-Route::post('login', [UserController::class, 'login'])->name('login');
-
+//Rutas de Auth
+Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('login/{provider}', [LoginController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback', [LoginController::class, 'handleProviderCallback']);
 
@@ -37,18 +36,17 @@ Route::get('estados', [EstadosValoresController::class, 'listEstadosValores']);
 Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 
 
-//CAMBIAR ESTO
-//Route::get('user', [UserController::class, 'listUser']);
-Route::get('user', [UserController::class, 'listUserHabilitados']);
-
-
 
 Route::middleware("auth:sanctum")->group(function () {
-    //rutas auth
+    //Rutas de Auth
+	Route::get('logout', [LoginController::class, 'logout']);
+
+	//Rutas de Gestion de usarios
     Route::get('user-profile', [UserController::class, 'userProfile']);
     Route::get('update', [UserController::class, 'updateRoleEstado']);
-    Route::get('logout', [UserController::class, 'logout']);
     Route::post('register', [UserController::class, 'register']);
+	Route::get('user', [UserController::class, 'listUser']);
+	Route::get('enabled_users', [UserController::class, 'listUserHabilitados']);
 
     //rutas estandar
     Route::post('estandar', [EstandarController::class, 'createEstandar']);

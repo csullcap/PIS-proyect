@@ -39,37 +39,7 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request)
-    {
 
-        $request->validate([
-            "email" => "required|email",
-            "password" => "required"
-        ]);
-
-        $user = User::where("email", "=", $request->email)->where("estado",true)->first();
-
-        if (isset($user->id)) {
-            if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken("auth_token")->plainTextToken;
-                return response()->json([
-                    "message" => "Usuario logueado",
-                    "access_token" => $token,
-                    "nombre" => $user->name,
-                    "apellido" => $user->lastname,
-                ]);
-            } else {
-                return response()->json([
-                    "message" => "La password es incorrecta",
-                ], 404);
-            }
-        } else {
-            return response()->json([
-                "status" => 0,
-                "message" => "Usuario no registrado o deshabilitado",
-            ], 404);
-        }
-    }
 
     public function userProfile()
     {
@@ -104,13 +74,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function logout()
-    {
-        auth()->user()->tokens()->delete();
-        return response()->json([
-            "message" => "Sesion cerrada"
-        ]);
-    }
+
 	public function updateRoleEstado(Request $request){
 		$request->validate([
 			"id"=>"exists:users",
