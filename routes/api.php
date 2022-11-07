@@ -43,7 +43,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
 	//Rutas de Gestion de usarios
     Route::get('user-profile', [UserController::class, 'userProfile']);
-    Route::get('update', [UserController::class, 'updateRoleEstado']);
+    Route::put('update', [UserController::class, 'updateRoleEstado']);
     Route::post('register', [UserController::class, 'register']);
 	Route::get('user', [UserController::class, 'listUser']);
 	Route::get('enabled_users', [UserController::class, 'listUserHabilitados']);
