@@ -355,7 +355,7 @@ class PlanController extends Controller
             } else {
                 return response([
                     "status" => 0,
-                    "message" => "Codigo no disponible, intente con otro",
+                    "message" => "Código ya asignado a un plan de mejora",
                 ], 200);
             }
         } else {
