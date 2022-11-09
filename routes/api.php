@@ -34,8 +34,6 @@ Route::get('fuentes', [FuentesValoresController::class, 'listFuentesValores']);
 Route::get('estados', [EstadosValoresController::class, 'listEstadosValores']);
 //Estandares  valores
 Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
-Route::get('user', [UserController::class, 'listUser']);
-
 
 Route::middleware("auth:sanctum")->group(function () {
     //Rutas de Auth
@@ -45,7 +43,9 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('user-profile', [UserController::class, 'userProfile']);
     Route::put('update', [UserController::class, 'updateRoleEstado']);
     Route::post('register', [UserController::class, 'register']);
+	Route::get('user', [UserController::class, 'listUser']);	
 	Route::get('enabled_users', [UserController::class, 'listUserHabilitados']);
+
 
     //rutas estandar
     Route::post('estandar', [EstandarController::class, 'createEstandar']);

@@ -63,7 +63,7 @@ class UserController extends Controller
     }
 
 	public function listUserHabilitados(){
-		$users = User::whereNotNull("name")->where("estado",true)->get();
+		$users = User::whereNotIn("name",["null"])->where("estado",true)->get();
 		foreach ($users as $user) {
 			$user->rol=User::find($user->id)->roles[0]->name;
 		}
