@@ -5,29 +5,32 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Estandar;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class EstandarController extends Controller
 {
-    public function createEstandar(Request $request){
+    public function createEstandar(Request $request)
+    {
         $request->validate([
-            "name"=>"required",
-			"cabecera"=>"required",
+            "name" => "required",
+            "cabecera" => "required",
         ]);
         $id_user = auth()->user()->id;
         $estandar = new Estandar();
         $estandar->id_user = $id_user;
         $estandar->name = $request->name;
-		$estandar->cabecera = $request->cabecera;
+        $estandar->cabecera = $request->cabecera;
         $estandar->save();
         return response([
             "status" => 1,
             "msg" => "!Estandar creado exitosamente",
-			"data" => $estandar,
+            "data" => $estandar,
         ]);
     }
 
-    public function listEstandar(){
+    public function listEstandar()
+    {
         $estandares = Estandar::all();
         return response([
             "status" => 1,
@@ -36,10 +39,11 @@ class EstandarController extends Controller
         ]);
     }
 
-    public function listEstandarValores(){
-        $estandaresNombreslist = Estandar::select('estandars.name','estandars.id')
-                                ->orderBy('estandars.id','asc')
-                                ->get();
+    public function listEstandarValores()
+    {
+        $estandaresNombreslist = Estandar::select('estandars.name', 'estandars.id')
+            ->orderBy('estandars.id', 'asc')
+            ->get();
         return response([
             "status" => 1,
             "msg" => "!Lista de nombres de Estandares",
@@ -48,61 +52,62 @@ class EstandarController extends Controller
     }
 
 
-    public function showEstandar($id){
-        if(Estandar::where("id",$id)->exists()){
+    public function showEstandar($id)
+    {
+        if (Estandar::where("id", $id)->exists()) {
             $estandar = Estandar::find($id);
+            $user = User::find($estandar->id_user);
+            $estandar->user = $user;
+            $estandar->esEncargado = ($user->id == auth()->user()->id);
             return response([
                 "status" => 1,
                 "msg" => "!Estandar",
                 "data" => $estandar,
             ]);
+        } else {
+            return response([
+                "status" => 0,
+                "msg" => "!No se encontro el estandar",
+            ], 404);
         }
-        else{
-          return response([
-              "status" => 0,
-              "msg" => "!No se encontro el estandar",
-          ],404);
-        }
-
     }
 
-    public function updateEstandar(Request $request, $id){
+    public function updateEstandar(Request $request, $id)
+    {
         $id_user = auth()->user()->id;
-        if(Estandar::where(["id_user"=>$id_user,"id"=>$id])->exists()){
+        if (Estandar::where(["id_user" => $id_user, "id" => $id])->exists()) {
             $estandar = Estandar::find($id);
             $estandar->name = isset($request->name) ? $request->name : $estandar->name;
-			$estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
+            $estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
             $estandar->save();
             return response([
                 "status" => 1,
                 "msg" => "!Estandar actualizado",
                 "data" => $estandar,
             ]);
-        }
-        else{
+        } else {
             return response([
                 "status" => 0,
                 "msg" => "!No se encontro el estandar o no esta autorizado",
-            ],404);
+            ], 404);
         }
-
     }
 
-    public function deleteEstandar($id){
+    public function deleteEstandar($id)
+    {
         $id_user = auth()->user()->id;
-        if(Estandar::where(["id"=>$id,"id_user"=>$id_user])->exists()){
-              $estandar = Estandar::where(["id"=>$id,"id_user"=>$id_user])->first();
-              $estandar->delete();
-              return response([
-                  "status" => 1,
-                  "msg" => "!Estandar eliminado",
-              ]);
-        }
-        else{
+        if (Estandar::where(["id" => $id, "id_user" => $id_user])->exists()) {
+            $estandar = Estandar::where(["id" => $id, "id_user" => $id_user])->first();
+            $estandar->delete();
+            return response([
+                "status" => 1,
+                "msg" => "!Estandar eliminado",
+            ]);
+        } else {
             return response([
                 "status" => 0,
                 "msg" => "!No se encontro el estandar o no esta autorizado",
-            ],404);
+            ], 404);
         }
     }
 }
