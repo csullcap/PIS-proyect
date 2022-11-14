@@ -74,11 +74,16 @@ class EstandarController extends Controller
 
     public function updateEstandar(Request $request, $id)
     {
+		$request->validate([
+            "id_user" => 'exists:App\Models\User,id',
+        ]);
+
         $id_user = auth()->user()->id;
         if (Estandar::where(["id_user" => $id_user, "id" => $id])->exists()) {
             $estandar = Estandar::find($id);
             $estandar->name = isset($request->name) ? $request->name : $estandar->name;
             $estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
+			$estandar->id_user = isset($request->id_user) ? $request->id_user : $estandar->id_user;
             $estandar->save();
             return response([
                 "status" => 1,

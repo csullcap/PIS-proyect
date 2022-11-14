@@ -56,4 +56,9 @@ class User extends Authenticatable
   {
     return plan::where('id', $id_plan)->where('id_user', $this->id)->exists();
   }
+
+  public function isEncargadoEstandar($id_estandar)
+  {
+    return Estandar::where('id', $id_estandar)->where('id_user', $this->id)->exists();
+  }
 }
