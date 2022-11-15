@@ -100,4 +100,15 @@ class NarrativasController extends Controller
             "data" => $narrativas,
         ]);
     }
+	public function ultimaNarrativa(Request $request){
+		$request->validate([
+            "id_estandar" => 'required|exists:App\Models\Estandar,id',
+        ]);
+		$narrativa = Narrativa::where("id_estandar", $request->id_estandar)->latest()->first();
+		return response([
+            "status" => 1,
+            "message" => "!Ultima Narrativa del estandar ".$request->id_estandar,
+            "data" => $narrativa,
+        ]);
+	}
 }
