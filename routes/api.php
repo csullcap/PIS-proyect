@@ -37,14 +37,14 @@ Route::get('estandares', [EstandarController::class, 'listEstandarValores']);
 
 Route::middleware("auth:sanctum")->group(function () {
     //Rutas de Auth
-	Route::get('logout', [LoginController::class, 'logout']);
+    Route::get('logout', [LoginController::class, 'logout']);
 
-	//Rutas de Gestion de usarios
+    //Rutas de Gestion de usarios
     Route::get('user-profile', [UserController::class, 'userProfile']);
     Route::put('update', [UserController::class, 'updateRoleEstado']);
     Route::post('register', [UserController::class, 'register']);
-	Route::get('user', [UserController::class, 'listUser']);
-	Route::get('enabled_users', [UserController::class, 'listUserHabilitados']);
+    Route::get('user', [UserController::class, 'listUser']);
+    Route::get('enabled_users', [UserController::class, 'listUserHabilitados']);
 
 
     //rutas estandar
@@ -120,7 +120,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::put('narrativa', [NarrativasController::class, 'update']);
     Route::delete('narrativa/{id}', [NarrativasController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('narrativa', [NarrativasController::class, 'listNarrativas']);
-	Route::get('narrativa/ultima/{id}', [NarrativasController::class, 'ultimaNarrativa']->where('id', '[0-9]+'));
+    Route::get('narrativa/ultima/{id}', [NarrativasController::class, 'ultimaNarrativa'])->where('id', '[0-9]+');
 });
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
