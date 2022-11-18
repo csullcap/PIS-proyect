@@ -41,7 +41,9 @@ class EstandarController extends Controller
 
     public function listEstandarValores()
     {
-        $estandaresNombreslist = Estandar::select('estandars.name', 'estandars.id')
+        $estandaresNombreslist = Estandar::select('estandars.name', 'estandars.id', "estandars.id_user", "users.name as user_name", "users.lastname as user_lastname", "users.email as user_email")
+            ->orderBy('estandars.id', 'asc')
+            ->join('users', 'estandars.id_user', '=', 'users.id')
             ->orderBy('estandars.id', 'asc')
             ->get();
         return response([
@@ -50,7 +52,6 @@ class EstandarController extends Controller
             "data" => $estandaresNombreslist,
         ]);
     }
-
 
     public function showEstandar($id)
     {
@@ -74,7 +75,7 @@ class EstandarController extends Controller
 
     public function updateEstandar(Request $request, $id)
     {
-		$request->validate([
+        $request->validate([
             "id_user" => 'exists:App\Models\User,id',
         ]);
 
@@ -83,7 +84,7 @@ class EstandarController extends Controller
             $estandar = Estandar::find($id);
             $estandar->name = isset($request->name) ? $request->name : $estandar->name;
             $estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
-			$estandar->id_user = isset($request->id_user) ? $request->id_user : $estandar->id_user;
+            $estandar->id_user = isset($request->id_user) ? $request->id_user : $estandar->id_user;
             $estandar->save();
             return response([
                 "status" => 1,
