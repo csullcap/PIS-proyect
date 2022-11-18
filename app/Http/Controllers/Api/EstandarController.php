@@ -41,7 +41,7 @@ class EstandarController extends Controller
 
     public function listEstandarValores()
     {
-        $estandaresNombreslist = Estandar::select('estandars.name', 'estandars.id', "estandars.id_user", "users.name as user_name", "users.lastname as user_lastname", "users.email as user_email")
+        $estandareslist = Estandar::select('estandars.name', 'estandars.id', "estandars.id_user", "users.name as user_name", "users.lastname as user_lastname", "users.email as user_email")
             ->orderBy('estandars.id', 'asc')
             ->join('users', 'estandars.id_user', '=', 'users.id')
             ->orderBy('estandars.id', 'asc')
@@ -49,7 +49,7 @@ class EstandarController extends Controller
         return response([
             "status" => 1,
             "msg" => "!Lista de nombres de Estandares",
-            "data" => $estandaresNombreslist,
+            "data" => $estandareslist,
         ]);
     }
 

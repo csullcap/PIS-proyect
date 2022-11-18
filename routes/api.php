@@ -50,6 +50,7 @@ Route::middleware("auth:sanctum")->group(function () {
     //rutas estandar
     Route::post('estandar', [EstandarController::class, 'createEstandar']);
     Route::get('estandar', [EstandarController::class, 'listEstandar']);
+    Route::get('estandar-valores', [EstandarController::class, 'listEstandarValores']);
     Route::get('estandar/{id}', [EstandarController::class, 'showEstandar'])->where('id', '[0-9]+');
     Route::put('estandar/{id}',  [EstandarController::class, 'updateEstandar'])->where('id', '[0-9]+');
     Route::delete('estandar/{id}', [EstandarController::class, 'deleteEstandar'])->where('id', '[0-9]+');
