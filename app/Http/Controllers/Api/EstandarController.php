@@ -60,6 +60,7 @@ class EstandarController extends Controller
             $user = User::find($estandar->id_user);
             $estandar->user = $user;
             $estandar->esEncargado = ($user->id == auth()->user()->id);
+            $estandar->esAdmin = auth()->user()->isAdmin();
             return response([
                 "status" => 1,
                 "msg" => "!Estandar",
