@@ -77,7 +77,7 @@ class EstandarController extends Controller
     public function updateEstandar(Request $request, $id)
     {
         $id_user = auth()->user();
-        if (Estandar::where("id", $id)->exists() && $id_user->isAdmin()) {
+        if ($id_user->isEncargado() || $id_user->isAdmin()) {
             $estandar = Estandar::find($id);
             $estandar->name = isset($request->name) ? $request->name : $estandar->name;
             $estandar->cabecera = isset($request->cabecera) ? $request->cabecera : $estandar->cabecera;
