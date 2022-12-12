@@ -122,6 +122,13 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::delete('narrativa/{id}', [NarrativasController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('narrativa', [NarrativasController::class, 'listNarrativas']);
     Route::get('narrativa/ultima/{id}', [NarrativasController::class, 'ultimaNarrativa'])->where('id', '[0-9]+');
+
+    //ruta Actas
+    Route::post('acta', [ActaController::class, 'create']);
+    Route::get('acta/{id}', [ActaController::class, 'showActa'])->where('id', '[0-9]+');
+    Route::put('acta/{id}', [ActaController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('acta/{id}', [ActaController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('acta', [ActaController::class, 'listActas']);
 });
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
