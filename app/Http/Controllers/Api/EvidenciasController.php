@@ -30,7 +30,7 @@ class EvidenciasController extends Controller
                 $evidencia = new Evidencias();
                 $evidencia->id_plan = $request->id_plan;
                 $evidencia->codigo = $plan->codigo;
-                $evidencia->denominacion = $request->adjunto->getClientOriginalName();
+                $evidencia->denominacion = $request->denominacion.$request->adjunto->extension();
                 $path = $request->adjunto->storePubliclyAs(
                     'evidencias',
                     $request->adjunto->getClientOriginalName()
@@ -97,7 +97,7 @@ class EvidenciasController extends Controller
             $plan = plan::find($evidencia->id_plan);
             if ($id_user->isCreadorPlan($plan->id) or $id_user->isAdmin()) {
                 $evidencia->codigo = $request->codigo;
-                $evidencia->denominacion = $request->adjunto->getClientOriginalName();
+                $evidencia->denominacion = $request->denominacion.$request->adjunto->extension();
                 $path = $request->adjunto->storePubliclyAs(
                     'evidencias',
                     $request->adjunto->getClientOriginalName()
