@@ -30,7 +30,7 @@ class EvidenciasController extends Controller
                 $evidencia = new Evidencias();
                 $evidencia->id_plan = $request->id_plan;
                 $evidencia->codigo = $plan->codigo;
-                $evidencia->denominacion = $request->denominacion.$request->adjunto->extension();
+                $evidencia->denominacion = $request->denominacion.'.'.$request->adjunto->extension();
                 $path = $request->adjunto->storePubliclyAs(
                     'evidencias',
                     $request->adjunto->getClientOriginalName()
