@@ -13,10 +13,9 @@ class ActaController extends Controller
     public function create(Request $request)
     {
         $request = Validator::make($request->all(), [
-            'titulo' => 'required',
+            'descripcion' => 'required',
             'fecha' => 'required',
             'id_estandar' => 'required|exists:estandars,id',
-            'file' => 'required',
         ]);
 
         if ($request->fails()) {
@@ -35,10 +34,9 @@ class ActaController extends Controller
             ], 401);
         }
         $acta = new Acta();
-        $acta->titulo = $request->titulo;
+        $acta->descripcion = $request->descripcion;
         $acta->fecha = $request->fecha;
         $acta->id_estandar = $request->id_estandar;
-        $acta->file = $request->file;
         $acta->save();
         return response()->json([
             'success' => true,
@@ -78,10 +76,9 @@ class ActaController extends Controller
     public function update(Request $request, $id)
     {
         $request = Validator::make($request->all(), [
-            'titulo' => 'present',
+            'descripcion' => 'present',
             'fecha' => 'present',
             'id_estandar' => 'present|exists:estandars,id',
-            'file' => 'present',
         ]);
 
         $acta = Acta::find($id);
@@ -109,10 +106,9 @@ class ActaController extends Controller
             ], 401);
         }
 
-        $acta->titulo = isset($request->titulo) ? $request->titulo : $acta->titulo;
+        $acta->descripcion = isset($request->descripcion) ? $request->descripcion : $acta->descripcion;
         $acta->fecha = isset($request->fecha) ? $request->fecha : $acta->fecha;
         $acta->id_estandar = isset($request->id_estandar) ? $request->id_estandar : $acta->id_estandar;
-        $acta->file = isset($request->file) ? $request->file : $acta->file;
         $acta->save();
 
         return response()->json([

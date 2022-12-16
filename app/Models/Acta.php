@@ -13,8 +13,7 @@ class Acta extends Model
     protected $table = 'actas';
     protected $fillable = [
         'titulo',
-        'fecha',
-        'file',
+        'descripcion',
     ];
 
     public function estandar()

@@ -18,10 +18,9 @@ return new class extends Migration
 
             $table->id();
             $table->date('fecha');
-            $table->string('titulo', 255);
+            $table->mediumText('descripcion');
             $table->foreignId('id_estandar')
                 ->constrained('estandars');
-            $table->string('file', 255);
             $table->timestamps();
         });
     }
