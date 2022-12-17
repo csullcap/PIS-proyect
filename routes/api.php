@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\EstadosValoresController;
 use App\Http\Controllers\Api\EvidenciasController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\NarrativasController;
+use App\Http\Controllers\Api\ActaController;
 
 //Rutas de Auth
 Route::post('login', [LoginController::class, 'login'])->name('login');

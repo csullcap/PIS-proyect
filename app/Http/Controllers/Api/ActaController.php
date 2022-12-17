@@ -5,26 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Acta;
-use Dotenv\Validator;
 
 class ActaController extends Controller
 {
 
     public function create(Request $request)
     {
-        $request = Validator::make($request->all(), [
-            'descripcion' => 'required',
+		$request->validate([
+			'descripcion' => 'required',
             'fecha' => 'required',
             'id_estandar' => 'required|exists:estandars,id',
         ]);
-
-        if ($request->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Se necesita llenar todos los campos',
-                'data' => $request->errors()
-            ], 400);
-        }
 
         $user = auth()->user();
         if (!($user->isAdmin() or $user->isEncargadoEstandar($request->id_estandar))) {
@@ -33,11 +24,13 @@ class ActaController extends Controller
                 'message' => 'No tienes permisos para crear una acta',
             ], 401);
         }
+
         $acta = new Acta();
+		$acta->id_estandar = $request->id_estandar;
+		$acta->fecha = $request->fecha;
         $acta->descripcion = $request->descripcion;
-        $acta->fecha = $request->fecha;
-        $acta->id_estandar = $request->id_estandar;
         $acta->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Acta creada',
