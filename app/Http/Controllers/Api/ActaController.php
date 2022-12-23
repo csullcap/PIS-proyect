@@ -81,8 +81,8 @@ class ActaController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:actas,id',
             'descripcion' => 'present',
-            'fecha' => 'present',
-            'id_estandar' => 'present|exists:estandars,id',
+            'fecha' => 'sometimes',
+            'id_estandar' => 'sometimes|exists:estandars,id',
         ]);
 
         $acta = Acta::find($request->id);
