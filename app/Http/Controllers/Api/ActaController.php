@@ -5,18 +5,27 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Acta;
-
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class ActaController extends Controller
 {
 
     public function create(Request $request)
     {
-        $request->validate([
+		$validator = Validator::make($request->all(), [
             'descripcion' => 'required',
             'fecha' => 'required',
             'id_estandar' => 'required|exists:estandars,id',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Se necesita llenar todos los campos',
+                'data' => $validator->errors()
+            ], 400);
+        }
 
         $user = auth()->user();
         if (!($user->isAdmin() or $user->isEncargadoEstandar($request->id_estandar))) {
@@ -69,7 +78,7 @@ class ActaController extends Controller
 
     public function update(Request $request)
     {
-        $request = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => 'required|exists:actas,id',
             'descripcion' => 'present',
             'fecha' => 'present',
@@ -85,11 +94,11 @@ class ActaController extends Controller
         }
 
 
-        if ($request->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Se produjo un error al actualizar la acta',
-                'data' => $request->errors()
+                'data' => $validator->errors()
             ], 400);
         }
 
