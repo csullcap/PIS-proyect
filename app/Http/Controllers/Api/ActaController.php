@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Acta;
 
+
 class ActaController extends Controller
 {
 
     public function create(Request $request)
     {
-		$request->validate([
-			'descripcion' => 'required',
+        $request->validate([
+            'descripcion' => 'required',
             'fecha' => 'required',
             'id_estandar' => 'required|exists:estandars,id',
         ]);
@@ -26,8 +27,8 @@ class ActaController extends Controller
         }
 
         $acta = new Acta();
-		$acta->id_estandar = $request->id_estandar;
-		$acta->fecha = $request->fecha;
+        $acta->id_estandar = $request->id_estandar;
+        $acta->fecha = $request->fecha;
         $acta->descripcion = $request->descripcion;
         $acta->save();
 
@@ -66,15 +67,16 @@ class ActaController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request = Validator::make($request->all(), [
+            'id' => 'required|exists:actas,id',
             'descripcion' => 'present',
             'fecha' => 'present',
             'id_estandar' => 'present|exists:estandars,id',
         ]);
 
-        $acta = Acta::find($id);
+        $acta = Acta::find($request->id);
         if (!$acta) {
             return response()->json([
                 'success' => false,

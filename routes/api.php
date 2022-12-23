@@ -127,7 +127,7 @@ Route::middleware("auth:sanctum")->group(function () {
     //ruta Actas
     Route::post('acta', [ActaController::class, 'create']);
     Route::get('acta/{id}', [ActaController::class, 'showActa'])->where('id', '[0-9]+');
-    Route::put('acta/{id}', [ActaController::class, 'update'])->where('id', '[0-9]+');
+    Route::put('acta', [ActaController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('acta/{id}', [ActaController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('acta', [ActaController::class, 'listActas']);
 });
